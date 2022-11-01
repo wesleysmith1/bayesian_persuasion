@@ -1,0 +1,55 @@
+{{ block title }}
+    <div style="text-align: center;">The Computer is drawing the ball.</div>
+{{ endblock }}
+
+{{ block content }}
+
+<style>
+    .center {
+        text-align: center;
+    }
+    .arrow {
+        font-size:100px;
+        text-align: center;
+    }
+</style>
+
+<div id="loading"></div>
+
+<button id="submit" style="display: none;"></button>
+
+{{ include C.LOADING_TEMPLATE}}
+
+<script>
+    let stages = {{C.LOADING_STAGES}}
+    let interval = {{C.LOADING_INTERVAL}}
+
+    $("#loading").append("<h3 id='loading0' class='center'>" + stages[0][0] + "</div><div class='loader'></div>")
+
+    let index = 1
+    var timer = setInterval(function() {
+
+        let newMessage = stages[index-1][1]
+
+        $("#loading"+(index-1)).html(newMessage)
+
+        $(".loader").remove()
+
+        if (index != stages.length)
+            $("#loading").append("<div class='arrow'>&#8595;</div>")
+            
+        if (index == stages.length) {
+            setTimeout(function() {$("#submit").trigger('click')}, interval)
+            clearInterval(timer)
+            return;
+        }
+
+        $("#loading").append("<h3 id='loading" + index + "' class='center'>" + stages[index][0] + "</div><div class='loader'></div>")
+
+        index++
+    }, interval)
+</script>
+
+{{ endblock }}
+
+

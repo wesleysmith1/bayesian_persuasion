@@ -6,6 +6,9 @@ doc = """
 Your app description
 """
 
+class PostPracticeWait(WaitPage):
+    wait_for_all_groups = True
+    
 
 class C(BaseConstants):
     NAME_IN_URL = 'main'
@@ -26,7 +29,14 @@ class C(BaseConstants):
 
     ROUND_PAY = cu(2)
 
-    LOAD_PAGE_DURATION = 3
+    LOADING_INTERVAL = 3000
+
+    LOADING_STAGES = [
+        ["a", "b"],
+        ["c", "d"],
+        ["e", "f"],
+        ["g", "h"]
+    ]
 
 
 class Subsession(BaseSubsession):
@@ -47,7 +57,7 @@ class Group(BaseGroup):
     ball_color = models.StringField(choices=[C.R, C.B])
     message_sent = models.StringField(choices=[C.R, C.B])
     guess = models.StringField()
-    message_flagged = models.BooleanField(initial=False)
+    message_flagged = models.BooleanField()
 
 
 class Player(BasePlayer):
@@ -93,16 +103,16 @@ class Wait2(WaitPage):
             group.message_sent = random.choices([C.R, C.B], [group.if_blue_send_red, group.if_blue_send_blue])[0]
 
         # is message false
-        if group.ball_color != group.message_sent:
+        if group.ball_color != group.message_sent and group.session.config['flagged'] > 0:
             group.message_flagged = random.random() < group.session.config['flagged']
 
         if group.ball_color == C.R:
-            if group.message_flagged:
+            if group.field_maybe_none('message_flagged'):
                 group.guess = group.if_red_flagged_guess
             else:
                 group.guess = group.if_red_guess
         else:
-            if group.message_flagged:
+            if group.field_maybe_none('message_flagged'):
                 group.guess = group.if_blue_flagged_guess
             else:
                 group.guess = group.if_blue_guess
@@ -145,31 +155,15 @@ class Summary(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
-        chart_title = "Sender's COMMUNICATION PLAN" if player.role == C.RECEIVER_ROLE else "You chose this COMMUNICATION PLAN"
+        chart_title = "Sender's Communication Plan" if player.role == C.RECEIVER_ROLE else "You chose this Communication Plan"
         return dict(
                 opponent_payoff=player.get_others_in_group()[0].payoff,
                 chart_title=chart_title,
             )
 
 
-class Loading1(Page):
-    timeout_seconds = C.LOAD_PAGE_DURATION
+class LoadingPage(Page):
+    pass
 
 
-class Loading2(Page):
-    timeout_seconds = C.LOAD_PAGE_DURATION
-
-
-class Loading3(Page):
-    timeout_seconds = C.LOAD_PAGE_DURATION
-
-    @staticmethod
-    def is_displayed(player: Player):
-        return player.session.config["flagged"] > 0
-
-
-class Loading4(Page):
-    timeout_seconds = C.LOAD_PAGE_DURATION
-
-
-page_sequence = [CommunicationStage, Wait1, GuessingStage, Wait2, Loading1, Loading2, Loading3, Loading4, Summary]
+page_sequence = [PostPracticeWait, CommunicationStage, Wait1, GuessingStage, Wait2, LoadingPage, Summary]

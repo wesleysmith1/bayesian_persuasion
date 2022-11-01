@@ -4,6 +4,19 @@
 
 {{ block content }}
 
+<style>
+    .flagged {
+        color: red;
+        font-weight: bolder;
+        background: pink !important;
+    }
+    .notFlagged {
+        color: green;
+        font-weight: bolder;
+        background: rgb(133, 250, 133) !important;
+    }
+</style>
+
 <table class="table">
     <thead>
         <tr>
@@ -12,14 +25,28 @@
             <th scope="col">Flagged</th>
             <th scope="col">Guess</th>
             <th scope="col">Your Payoff</th>
-            <th scope="col">Opponent's Payoff</th>
+            <th scope="col">
+                {% if player.role == C.RECEIVER_ROLE %}Sender's Payoff{% else %}Receiver's Payoff{% endif %}
+            </th>
         </tr>
     </thead>
     <tbody>
         <tr>
             <td>{{group.ball_color}}</td>
             <td>{{group.message_sent}}</td>
-            <td>{{group.message_flagged}}</td>
+            {% if group.field_maybe_none('message_flagged') == None %}
+            <td>
+                N/A (message was true)
+            </td>
+            {% elif group.message_flagged %}
+            <td class="flagged">
+                Flagged
+            </td>
+            {% else %}
+            <td class="notFlagged">
+                Not Flagged
+            </td>
+            {% endif %}>
             <td>{{group.guess}}</td>
             <td>{{player.payoff}}</td>
             <td>{{opponent_payoff}}</td>
@@ -33,34 +60,34 @@
     </div>
     <div>
         {% if player.role == C.RECEIVER_ROLE %}
-        <p style="font-size: 20px;">You selected this GUESSING PLAN</p>
-        <div style="border: 1px solid black; padding: 15px;">
-            <p>If I receive Message Red, I will guess <b>{{group.if_red_guess}}</b></p>
-            {% if group.field_maybe_none('if_red_flagged_guess')%}
-                <p>If I receive Flagged Message Red, I will guess <b>{{group.if_red_flagged_guess}}</b></p>
-            {% endif %}
-            <p>If I receive Message Blue, I will guess <b>{{group.if_blue_guess}}</b></p>
-            {% if group.field_maybe_none('if_blue_flagged_guess')%}
-                <p>If I receive Flagged Message Blue, I will guess <b>{{group.if_blue_flagged_guess}}</b></p>
-            {% endif %}
-        </div>
+            <p style="font-size: 20px; text-align: center;">You selected this Guessing Plan</p>
+            <div style="border: 1px solid black; padding: 15px;">
+                <p>If I receive Message Red, I will guess <b>{{group.if_red_guess}}</b></p>
+                {% if group.field_maybe_none('if_red_flagged_guess')%}
+                    <p>If I receive Flagged Message Red, I will guess <b>{{group.if_red_flagged_guess}}</b></p>
+                {% endif %}
+                <p>If I receive Message Blue, I will guess <b>{{group.if_blue_guess}}</b></p>
+                {% if group.field_maybe_none('if_blue_flagged_guess')%}
+                    <p>If I receive Flagged Message Blue, I will guess <b>{{group.if_blue_flagged_guess}}</b></p>
+                {% endif %}
+            </div>
         {% else %}
-        <p style="font-size: 20px;">The SENDER selected this GUESSING PLAN</p>
-        <div style="border: 1px solid black; padding: 15px;">
-            <p>If RECEIVER receives Message Red, they will guess <b>{{group.if_red_guess}}</b></p>
-            {% if group.field_maybe_none('if_red_flagged_guess')%}
-                <p>If RECEIVER receives Message Red, they will guess <b>{{group.if_red_flagged_guess}}</b></p>
-            {% endif %}
-            <p>If RECEIVER receives Message Blue, they will guess <b>{{group.if_blue_guess}}</b></p>
-            {% if group.field_maybe_none('if_blue_flagged_guess')%}
-                <p>If RECEIVER receives Message Blue, they will guess <b>{{group.if_blue_flagged_guess}}</b></p>
-            {% endif %}
-        </div>
+            <p style="font-size: 20px; text-align: center;">The RECEIVER selected this Guessing Plan</p>
+            <div style="border: 1px solid black; padding: 15px;">
+                <p>If Receiver receives Message Red, they will guess <b>{{group.if_red_guess}}</b></p>
+                {% if group.field_maybe_none('if_red_flagged_guess')%}
+                    <p>If Receiver receives Message Red, they will guess <b>{{group.if_red_flagged_guess}}</b></p>
+                {% endif %}
+                <p>If Receiver receives Message Blue, they will guess <b>{{group.if_blue_guess}}</b></p>
+                {% if group.field_maybe_none('if_blue_flagged_guess')%}
+                    <p>If Receiver receives Message Blue, they will guess <b>{{group.if_blue_flagged_guess}}</b></p>
+                {% endif %}
+            </div>
         {% endif %}
     </div>
 </div>
-
-<div>
+<br>
+<div style="text-align: center">
     <p>When you are done, press Next to proceed.</p>
     {{ next_button }}
 </div>

@@ -111,7 +111,9 @@
         </div>
     </div>
 
-    <button id="submit" class="btn btn-primary" style="display: none;">Next</button>
+    <div style="text-align: center;">
+        <button id="submit" class="btn btn-primary" style="display: none;">Next</button>
+    </div>
 
     <script>
         $(function() {
@@ -151,7 +153,11 @@
                                 displayNext()
                             },
                             onDragEnd: function() {
-                                that.set(Math.round(this.x/that.sliderWidth*100))
+                                let x = Math.round(this.x/that.sliderWidth*100)
+                                that.set(x)
+                                
+                                $(that.redRef).val(x)
+                                $(that.blueRef).val(100 - x)
                             }
                         });
                     this.set(50)
@@ -162,7 +168,6 @@
                 set(x) {
                     // convert input from 0-100 to size of scale
                     let convertedValue = Math.round(x/100*this.sliderWidth)
-                    console.log(x, convertedValue)
 
                     // updated left background color
                     this.updateBackground(convertedValue)
@@ -170,9 +175,6 @@
                     TweenLite.set(this.thumbRef,{x:convertedValue+"px"});
 
                     this.draggable[0].update();
-
-                    $(this.redRef).val(x)
-                    $(this.blueRef).val(100 - x)
 
                 }
             }
@@ -200,9 +202,15 @@
             function form_sync(a, b, slider, receivedKey) {
                 $(a).change(function(){
                     let x = $(this).val();
+
                     if (x > 100) {
                         $(b).val(0)
                         $(this).val(100)
+                        x = 100
+                    } else if (x < 0) {
+                        $(b).val(100)
+                        $(this).val(0)
+                        x = 0
                     } else {
                         $(b).val(100 - x)
                     }
@@ -218,18 +226,22 @@
 
                 $(b).change(function(){
                     let x = $(this).val();
+
                     if (x > 100) {
                         $(a).val(0)
                         $(this).val(100)
+                        x = 100
+                    } else if (x < 0) {
+                        $(a).val(100)
+                        $(this).val(0)
+                        x = 0
                     } else {
                         $(a).val(100 - x)
                     }
 
-                    // there needs to be two of these
-                    // sliderFunction(x)
                     slider.set(x)
 
-                    receivedInputs[receivedTag] = true
+                    receivedInputs[receivedKey] = true
                     displayNext()
                 });
             }
