@@ -1,0 +1,17 @@
+{{ block title }}
+    Payment
+{{ endblock }}
+
+{{ block content }}
+
+    <p>
+        You earned {{participant.payoff_plus_participation_fee()}}.
+    </p>
+    <p>
+        You earned {{participation_fee}} from the showup fee, and {{participant.payoff}} from your participation in the experiment.
+    </p>
+
+    {{ next_button }}
+{{ endblock }}
+
+

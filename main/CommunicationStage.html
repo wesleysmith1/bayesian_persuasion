@@ -1,0 +1,252 @@
+{{ block title }}
+    <div style="text-align: center;">
+        Communication Stage
+    </div>
+{{ endblock }}
+{{ block content }}
+
+<style>
+    .trow {
+        display: flex;
+        justify-content: space-evenly;
+    }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/Draggable.min.js"></script>
+
+<style>
+    .slider {
+        background: blue;
+        height: 25px;
+        width: 300px;
+        border-radius: 25px;
+        margin: auto;
+    }
+    .thumb {
+        background: grey;
+        height: 25px;
+        width: 25px;
+        border-radius: 25px;
+        position: relative;
+        bottom: 25px;
+    }
+    .left {
+        background: red;
+        border-radius: 25px;
+        height: 25px;
+    }
+    .sliderRange {
+        width: 300px;
+        display: flex;
+        justify-content: space-between;
+        margin: auto;   
+    }
+</style>
+
+<p style="text-align: center; ">Here you choose your COMMUNICATION PLAN.<br>After you click Confirm, we will communicate the plan you chose to the receiver.</P>
+
+    <br>
+    <br>
+
+    <div style="display: flex; margin: 20px; text-align: center;">
+        <div style="flex-grow:3; display: flex;">
+            <div style="flex-grow: 1">
+                <h4>If the ball is RED</h4>
+                <div class="trow">
+                    <div>Send Message</div>
+                    <div>with probability:</div>
+                </div>
+                <hr>
+                <div class="trow">
+                    <div>Red</div>
+                    <input type="number" value="5" max="100" min="0" step=1 name="if_red_send_red" id="if_red_send_red">
+                </div>
+                <hr>
+                <div class="trow">
+                    <div>Blue</div>
+                    <input type="number" value="5" max="100" min="0" step=1 name="if_red_send_blue" id="if_red_send_blue">
+                </div>
+                <hr>
+                <div class="sliderRange">
+                    <div>0</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;50</div>
+                    <div>100</div>
+                </div>
+                <div id="rslider" class="slider">
+                    <div id="rleft" class="left"></div>
+                    <div id="rthumb" class="thumb"></div>
+                </div>
+            </div>
+        </div>
+        <div style="flex-grow:1"></div>
+        <div style="flex-grow:3; display: flex;">
+            <div style="flex-grow: 1">
+                <h4>If the ball is BLUE</h4>
+                <div class="trow">
+                    <div>Send Message</div>
+                    <div>with probability:</div>
+                </div>
+                <hr>
+                <div class="trow">
+                    <div>Red</div>
+                    <input type="number" value="5" max="100" min="0" step=1 name="if_blue_send_red" id="if_blue_send_red">
+                </div>
+                <hr>
+                <div class="trow">
+                    <div>Blue</div>
+                    <input type="number" value="5" max="100" min="0" step=1 name="if_blue_send_blue" id="if_blue_send_blue">
+                </div>
+                <hr>
+                <div class="sliderRange">
+                    <div>0</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;50</div>
+                    <div>100</div>
+                </div>
+                <div id="bslider" class="slider">
+                    <div id="bleft" class="left"></div>
+                    <div id="bthumb" class="thumb"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button id="submit" class="btn btn-primary" style="display: none;">Next</button>
+
+    <script>
+        $(function() {
+
+            let redReceived = false;
+            let blueReceived = false;
+
+            let receivedInputs = {
+                "red": false,
+                "blue": false,
+            }
+            function displayNext() {
+                if (receivedInputs["red"] & receivedInputs["blue"]) {
+                    $("#submit").show()
+                }
+            }
+
+            // ============================================================================
+
+            class Slider {
+                constructor(sliderWidth, thumbRef, leftRef, boundsRef, redRef, blueRef, receivedKey) {
+                    this.leftRef = leftRef
+                    this.thumbRef = thumbRef 
+                    this.sliderWidth = sliderWidth
+                    this.boundsRef = boundsRef
+                    this.redRef = redRef
+                    this.blueRef = blueRef
+                    this.receivedKey = receivedKey
+                    let that = this
+                    this.draggable = Draggable.create(
+                        that.thumbRef, 
+                        {
+                            bounds: that.boundsRef, 
+                            onDrag: function() {
+                                that.updateBackground(this.x)
+                                receivedInputs[that.receivedKey] = true
+                                displayNext()
+                            },
+                            onDragEnd: function() {
+                                that.set(Math.round(this.x/that.sliderWidth*100))
+                            }
+                        });
+                    this.set(50)
+                }
+                updateBackground(x) {
+                    document.getElementById(this.leftRef).style.width = x + 25 + "px";
+                }
+                set(x) {
+                    // convert input from 0-100 to size of scale
+                    let convertedValue = Math.round(x/100*this.sliderWidth)
+                    console.log(x, convertedValue)
+
+                    // updated left background color
+                    this.updateBackground(convertedValue)
+
+                    TweenLite.set(this.thumbRef,{x:convertedValue+"px"});
+
+                    this.draggable[0].update();
+
+                    $(this.redRef).val(x)
+                    $(this.blueRef).val(100 - x)
+
+                }
+            }
+
+            let redSlider = new Slider(275, '#rthumb', 'rleft', '#rslider', "#if_red_send_red", "#if_red_send_blue", "red")
+            let blueSlider = new Slider(275, '#bthumb', 'bleft', '#bslider', "#if_blue_send_red", "#if_blue_send_blue", "blue")
+            
+            // ============================================================================
+
+            function randomize() {
+                let a = Math.floor(Math.random() * 101);
+                let b = Math.floor(Math.random() * 101);
+
+                $("#if_red_send_red").val(a)
+                $("#if_red_send_blue").val(100 - a)
+                redSlider.set(a)
+
+                $("#if_blue_send_red").val(b)
+                $("#if_blue_send_blue").val(100 - b)
+                blueSlider.set(b)
+            }
+
+            randomize()
+
+            function form_sync(a, b, slider, receivedKey) {
+                $(a).change(function(){
+                    let x = $(this).val();
+                    if (x > 100) {
+                        $(b).val(0)
+                        $(this).val(100)
+                    } else {
+                        $(b).val(100 - x)
+                    }
+
+                    // there needs to be two of these
+                    // sliderFunction(x)
+                    slider.set(x)
+
+                    receivedInputs[receivedKey] = true
+                    displayNext()
+
+                });
+
+                $(b).change(function(){
+                    let x = $(this).val();
+                    if (x > 100) {
+                        $(a).val(0)
+                        $(this).val(100)
+                    } else {
+                        $(a).val(100 - x)
+                    }
+
+                    // there needs to be two of these
+                    // sliderFunction(x)
+                    slider.set(x)
+
+                    receivedInputs[receivedTag] = true
+                    displayNext()
+                });
+            }
+
+            form_sync("#if_red_send_red", "#if_red_send_blue", redSlider, "red")
+            form_sync("#if_blue_send_red", "#if_blue_send_blue", blueSlider, "blue")
+
+            $(document).ready(function() {
+                $(window).keydown(function(event){
+                    if(event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
+                    }
+                });
+            });
+
+        });
+    </script>
+
+{{ endblock }}

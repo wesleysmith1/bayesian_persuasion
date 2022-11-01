@@ -1,0 +1,211 @@
+{{ block title }}
+    Guessing Stage
+{{ endblock }}
+
+{{ block content }}
+
+<style>
+    h2, h3, h4 {
+        text-align: center;
+    }
+    button {
+        margin-bottom: 1rem!important;
+        margin-left: 20px;
+    }
+    .guessPlan {
+        padding-left: 40px;
+        border-left: 1px solid black;
+    }
+</style>
+    <br>
+    <div style="display: flex">
+        <div style="flex-grow:2">
+            <!-- Create a div where the graph will take place -->
+            {{ include C.CHART_TEMPLATE }}
+        </div>
+
+        <br>
+        
+        <div class="guessPlan" >
+            <h4>Choose your GUESSING PLAN</h4>
+            <br>
+            <div style="display: flex;">
+                <div style="width: 400px;">
+                    <div>
+                        If I receive Message...
+                    </div>
+                    <br>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">
+                            <img src="{{ static 'global/mail.svg' }}"/>
+                        </span>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            placeholder="Username" 
+                            aria-label="The Ball is Red{% if form_elements > 2 %}' and no lie is detected'{% endif %}" 
+                            aria-describedby="basic-addon1" 
+                            disabled 
+                            value="The Ball is Red{% if form_elements > 2 %}' and no lie is detected'{% endif %}">
+                    </div>
+                    {% if form_elements == 4 %}
+                    <br>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">
+                            <img src="{{ static 'global/mail.svg' }}"/>
+                        </span>
+                        <input 
+                        type="text" 
+                        class="form-control" 
+                        placeholder="Username" 
+                        aria-label="The Ball is Blue but a lie is detected" 
+                        aria-describedby="basic-addon1" 
+                        disabled 
+                        value="The Ball is Blue but a lie is detected">
+                    </div>
+                    {% endif %}
+                    <br>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">
+                            <img src="{{ static 'global/mail.svg' }}"/>
+                        </span>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            placeholder="Username" 
+                            aria-label="The Ball is Blue{% if form_elements > 2 %}' and no lie is detected'{% endif %}" 
+                            aria-describedby="basic-addon1" 
+                            disabled 
+                            value="The Ball is Blue{% if form_elements > 2 %}' and no lie is detected'{% endif %}">
+                    </div>
+                    {% if form_elements == 4 %}
+                    <br>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">
+                            <img src="{{ static 'global/mail.svg' }}"/>
+                        </span>
+                        <input 
+                        type="text" 
+                        class="form-control" 
+                        placeholder="Username" 
+                        aria-label="The Ball is Blue but a lie is detected" 
+                        aria-describedby="basic-addon1" 
+                        disabled 
+                        value="The Ball is Blue but a lie is detected">
+                    </div>
+                    {% endif %}
+                    
+                </div>
+            
+                <div style="width: 200px;" id="formButtons">
+                    <div>
+                        ...my guess will be:
+                    </div>
+                    <div>
+                        <br>
+                        <button class="btn btn-outline-danger" type="button" id="if_red_send_red" onclick="select(this.id)">RED</button>
+                        <button class="btn btn-outline-primary" type="button" id="if_red_send_blue" onclick="select(this.id)">BLUE</button>
+                    </div>
+                    {% if form_elements == 4 %}
+                    <div>
+                        <br>
+                        <button class="btn btn-outline-danger" type="button" id="if_red_flagged_send_red" onclick="select(this.id)">RED</button>
+                        <button class="btn btn-outline-primary" type="button" id="if_red_flagged_send_blue" onclick="select(this.id)">BLUE</button>
+                    </div>
+                    {% endif %}
+                    <div>
+                        <br>
+                        <button class="btn btn-outline-danger" type="button" id="if_blue_send_red" onclick="select(this.id)">RED</button>
+                        <button class="btn btn-outline-primary" type="button" id="if_blue_send_blue" onclick="select(this.id)">BLUE</button>
+                    </div>
+                    {% if form_elements == 4 %}
+                    <div>
+                        <br>
+                        <button class="btn btn-outline-danger" type="button" id="if_blue_flagged_send_red" onclick="select(this.id)">RED</button>
+                        <button class="btn btn-outline-primary" type="button" id="if_blue_flagged_send_blue" onclick="select(this.id)">BLUE</button>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div style="display: none;">
+            <input type="text" name="if_red_guess">
+            <input type="text" name="if_red_flagged_guess">
+            <input type="text" name="if_blue_guess">
+            <input type="text" name="if_blue_flagged_guess">
+        </div>
+    
+    </div>
+    <br>
+    <button id="submit" class="btn btn-primary" style="display: none;">Next</button>
+
+    <script>
+        let completedItems = []
+
+        let probRed = {{C.PROBABILITY_RED}}
+        let probBlue = {{C.PROBABILITY_BLUE}}
+
+        let formElements = {{form_elements}}
+
+        let red = "{{C.R}}"
+        let blue = "{{C.B}}"
+
+        function select(id) {
+
+            switch(id) {
+                case "if_red_send_red":
+                    $('button#if_red_send_red').attr("class", "btn btn-danger")
+                    $('button#if_red_send_blue').attr("class", "btn btn-outline-primary")
+                    $('input[name="if_red_guess"]').val(red)
+                    break;
+                case "if_red_send_blue":
+                    $('button#if_red_send_blue').attr("class", "btn btn-primary")
+                    $('button#if_red_send_red').attr("class", "btn btn-outline-danger")
+                    $('input[name="if_red_guess"]').val(blue)
+                    break;
+                case "if_red_flagged_send_red":
+                    $('button#if_red_flagged_send_red').attr("class", "btn btn-danger")
+                    $('button#if_red_flagged_send_blue').attr("class", "btn btn-outline-primary")
+                    $('input[name="if_red_flagged_guess"]').val(red)
+                    break;
+                case "if_red_flagged_send_blue":
+                    $('button#if_red_flagged_send_blue').attr("class", "btn btn-primary")
+                    $('button#if_red_flagged_send_red').attr("class", "btn btn-outline-danger")
+                    $('input[name="if_red_flagged_guess"]').val(blue)
+                    break;
+                case "if_blue_send_red":
+                    $('button#if_blue_send_red').attr("class", "btn btn-danger")
+                    $('button#if_blue_send_blue').attr("class", "btn btn-outline-primary")
+                    $('input[name="if_blue_guess"]').val(red)
+                    break;
+                case "if_blue_send_blue":
+                    $('button#if_blue_send_blue').attr("class", "btn btn-primary")
+                    $('button#if_blue_send_red').attr("class", "btn btn-outline-danger")
+                    $('input[name="if_blue_guess"]').val(blue)
+                    break;
+                case "if_blue_flagged_send_red":
+                    $('button#if_blue_flagged_send_red').attr("class", "btn btn-danger")
+                    $('button#if_blue_flagged_send_blue').attr("class", "btn btn-outline-primary")
+                    $('input[name="if_blue_flagged_guess"]').val(red)
+                    break;
+                case "if_blue_flagged_send_blue":
+                    $('button#if_blue_flagged_send_blue').attr("class", "btn btn-primary")
+                    $('button#if_blue_flagged_send_red').attr("class", "btn btn-outline-danger")
+                    $('input[name="if_blue_flagged_guess"]').val(blue)
+                    break;
+                default:
+                    // code block
+            }
+
+            if ($('#formButtons .btn-danger, #formButtons .btn-primary').length == formElements) {
+                $("#submit").show();
+            }
+
+        }
+
+    </script>
+
+{{ endblock }}
+
+

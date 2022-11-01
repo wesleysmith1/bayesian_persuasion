@@ -1,0 +1,74 @@
+{{ block title }}
+    Summary
+{{ endblock }}
+
+{{ block content }}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Ball Color</th>
+            <th scope="col">Message Sent</th>
+            <th scope="col">Flagged</th>
+            <th scope="col">Guess</th>
+            <th scope="col">Your Payoff</th>
+            <th scope="col">Opponent's Payoff</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{group.ball_color}}</td>
+            <td>{{group.message_sent}}</td>
+            <td>{{group.message_flagged}}</td>
+            <td>{{group.guess}}</td>
+            <td>{{player.payoff}}</td>
+            <td>{{opponent_payoff}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<div style="display: flex; justify-content: space-between;">
+    <div>
+        {{ include C.CHART_TEMPLATE }}
+    </div>
+    <div>
+        {% if player.role == C.RECEIVER_ROLE %}
+        <p style="font-size: 20px;">You selected this GUESSING PLAN</p>
+        <div style="border: 1px solid black; padding: 15px;">
+            <p>If I receive Message Red, I will guess <b>{{group.if_red_guess}}</b></p>
+            {% if group.field_maybe_none('if_red_flagged_guess')%}
+                <p>If I receive Flagged Message Red, I will guess <b>{{group.if_red_flagged_guess}}</b></p>
+            {% endif %}
+            <p>If I receive Message Blue, I will guess <b>{{group.if_blue_guess}}</b></p>
+            {% if group.field_maybe_none('if_blue_flagged_guess')%}
+                <p>If I receive Flagged Message Blue, I will guess <b>{{group.if_blue_flagged_guess}}</b></p>
+            {% endif %}
+        </div>
+        {% else %}
+        <p style="font-size: 20px;">The SENDER selected this GUESSING PLAN</p>
+        <div style="border: 1px solid black; padding: 15px;">
+            <p>If RECEIVER receives Message Red, they will guess <b>{{group.if_red_guess}}</b></p>
+            {% if group.field_maybe_none('if_red_flagged_guess')%}
+                <p>If RECEIVER receives Message Red, they will guess <b>{{group.if_red_flagged_guess}}</b></p>
+            {% endif %}
+            <p>If RECEIVER receives Message Blue, they will guess <b>{{group.if_blue_guess}}</b></p>
+            {% if group.field_maybe_none('if_blue_flagged_guess')%}
+                <p>If RECEIVER receives Message Blue, they will guess <b>{{group.if_blue_flagged_guess}}</b></p>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div>
+    <p>When you are done, press Next to proceed.</p>
+    {{ next_button }}
+</div>
+
+<script>
+
+</script>
+
+{{ endblock }}
+
+

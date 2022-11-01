@@ -1,0 +1,154 @@
+<script src="https://d3js.org/d3.v4.js"></script>
+<style>
+    g .y line {
+        stroke-dasharray: 1 1;
+    }
+    g path {
+        display: none;
+    }
+    svg {
+        margin-right: 40px;
+    }
+    .y text, .x text {
+        font-size: 16px;
+    }
+</style>
+
+<div id="my_dataviz"></div>
+
+<script>
+
+    let chartTitle = "{{chart_title}}"
+    
+    // set the dimensions and margins of the graph
+    var margin = {top: 30, right: 30, bottom: 100, left: 50},
+        width = 460 - margin.left - margin.right,
+        height = 400 - margin.top - margin.bottom;
+
+    // append the svg object to the body of the page
+    var svg = d3.select("#my_dataviz")
+        .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+            .attr("transform",
+                "translate(" + margin.left + "," + margin.top + ")");
+
+    let data = [
+            {group: "If the ball is Red", 'Send Red': {{group.if_red_send_red}}, 'Send Blue': {{group.if_red_send_blue}}},
+            {group: "If the ball is Blue", 'Send Red': {{group.if_blue_send_red}}, 'Send Blue': {{group.if_blue_send_blue}}},
+        ]
+
+    let subgroups = ['Send Red', 'Send Blue']
+
+    let groups = ["If the ball is Red", "If the ball is Blue"]
+
+    // Add X axis
+    var x = d3.scaleBand()
+        .domain(groups)
+        .range([0, width])
+        .padding([0.2])
+
+    svg.append("g")
+        .attr("class", "x")
+        .attr("transform", "translate(15," + height + ")")
+        .call(d3.axisBottom(x));
+
+    // Add Y axis
+    var y = d3.scaleLinear()
+        .domain([0, 100])
+        .range([ height, 0 ]);
+
+    svg.append("g")
+        .call(d3.axisLeft(y).tickSize(500))
+        .attr("class", "y")
+        .attr("transform",
+            "translate(500," + 0 + ")");;
+
+    // color palette = one color per subgroup
+    var color = d3.scaleOrdinal()
+        .domain(subgroups)
+        .range(['red','blue'])
+
+    // Normalize the data -> sum of each group must be 100!
+    dataNormalized = []
+    data.forEach(function(d){
+        // Compute the total
+        tot = 0
+
+        for (i in subgroups){ name=subgroups[i] ; tot += +d[name] }
+        // Now normalize
+        for (i in subgroups){ name=subgroups[i] ; d[name] = d[name] / tot * 100}
+
+    })
+
+    //stack the data? --> stack per subgroup
+    var stackedData = d3.stack()
+        .keys(subgroups)
+        (data)
+
+    // Show the bars
+    svg.append("g")
+    .selectAll("g")
+    // Enter in the stack data = loop key per key = group per group
+    .data(stackedData)
+    .enter().append("g")
+        .attr("fill", function(d) { return color(d.key); })
+        .selectAll("rect")
+        // enter a second time = loop subgroup per subgroup to add all rectangles
+        .data(function(d) { return d; })
+        .enter().append("rect")
+        .attr("x", function(d) { return x(d.data.group) + 15; })
+        .attr("y", function(d) { return y(d[1]); })
+        .attr("height", function(d) { return y(d[0]) - y(d[1]); })
+        .attr("width",x.bandwidth())
+    // })
+
+    svg.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")
+        .attr("font-size", "20px")
+        .text(chartTitle);
+
+    svg.append("text")
+        .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+        .attr("transform", "translate("+ (-30) +","+(height/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
+        .text("Probability");
+
+    let legendKeys = ["Send Red Message", "Send Blue Message"]
+    let legedColors = ["blue", "red"]
+    let size = 20
+    svg.selectAll("mydots")
+        .data(legendKeys)
+        .enter()
+        .append("rect")
+            .attr("x", function(d,i){ return 25 + i*(size+160)})
+            .attr("y", function(d,i){ return 340 }) // 100 is where the first dot appears. 25 is the distance between dots
+            .attr("width", size)
+            .attr("height", size)
+            .style("fill", function(d){ return color(d)})
+
+    svg.selectAll("mylabels")
+        .data(legendKeys)
+        .enter()
+        .append("text")
+            .attr("x", function(d,i){ return 50 + i*(size+160) })
+            .attr("y", function(d,i){ return 350}) // 100 is where the first dot appears. 25 is the distance between dots
+            .style("font-weight", "bold")
+            .text(function(d){ return d})
+            .attr("text-anchor", "left")
+            .style("alignment-baseline", "middle")
+
+    let probabilityLabels = ["(Probability 66%)", "(Probability 33%)"]
+
+    svg.selectAll("mylabels")
+        .data(probabilityLabels)
+        .enter()
+        .append("text")
+            .attr("x", function(d,i){ return 60 + i*(size+150) })
+            .attr("y", function(d,i){ return 305}) // 100 is where the first dot appears. 25 is the distance between dots
+            .text(function(d){ return d})
+            .attr("text-anchor", "left")
+            .style("alignment-baseline", "middle")
+</script>
