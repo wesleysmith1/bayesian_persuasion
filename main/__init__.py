@@ -29,7 +29,7 @@ class C(BaseConstants):
 
     ROUND_PAY = cu(2)
 
-    LOADING_INTERVAL = 3000
+    LOADING_INTERVAL = 5000 #3000
 
     LOADING_STAGES = [
         ["a", "b"],
@@ -163,7 +163,39 @@ class Summary(Page):
 
 
 class LoadingPage(Page):
-    pass
+    @staticmethod
+    def vars_for_template(player: Player):
+        a = [
+                "Drawing a ball from bag", 
+                "Looking at Sender’s Action Plan", 
+                "Generating message with these probabilities", 
+                "Message is going through Flagging Device",
+                "Looking at Receiver’s Action Plan",
+                "Calculating payoffs"
+            ]
+        b = [
+            f"<span style='color: {player.group.ball_color}'>{player.group.ball_color}</span> ball is drawn",
+        ]
+        if player.group.ball_color == C.R:
+            b.append(f"Sender's choice: <br>&nbsp;Send \"Ball is Red\" with {player.group.if_red_send_red}% chance <br>&nbsp;Send \"Ball is Blue\" with {player.group.if_red_send_blue}% chance")
+        else:
+            b.append(f"Sender's choice: <br>&nbsp;Send \"Ball is Red\" with {player.group.if_blue_send_red}% chance <br>&nbsp;Send \"Ball is Blue\" with {player.group.if_blue_send_blue}% chance")
 
+        b.append(f"Message sent to receiver = \"Ball is <span style='color: {player.group.message_sent}'>{player.group.message_sent}</span>\"")
+
+        if player.group.message_flagged == None:
+            b.append("Message is true. Cannot get flagged.")
+        elif player.group.message_flagged:
+            b.append("<span class='notFlagged'>Message Not Flagged!</span>")
+        else:
+            b.append("<span class='flagged'>Message Flagged! &#9873;</span>")
+
+        b.append(f"Receiver’s guess = {player.group.guess}")
+
+        sender = player.group.get_player_by_role(C.SENDER_ROLE)
+        receiver = player.group.get_player_by_role(C.RECEIVER_ROLE)
+        b.append(f"Sender earns {sender.payoff} (because receiver guessed {player.group.guess})<br>Receiver earns {receiver.payoff} (because guess was {'correct' if player.group.ball_color == player.group.guess else 'incorrect'})")
+
+        return dict(loading=a, final=b)
 
 page_sequence = [PostPracticeWait, CommunicationStage, Wait1, GuessingStage, Wait2, LoadingPage, Summary]
