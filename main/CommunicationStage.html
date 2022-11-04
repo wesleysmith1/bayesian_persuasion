@@ -1,6 +1,6 @@
 {{ block title }}
     <div style="text-align: center;">
-        Communication Stage
+        Round {{player.round_number}} of {{C.NUM_ROUNDS}}
     </div>
 {{ endblock }}
 {{ block content }}
@@ -44,27 +44,27 @@
     }
 </style>
 
-<p style="text-align: center; ">Here you choose your COMMUNICATION PLAN.<br>After you click Confirm, we will communicate the plan you chose to the receiver.</P>
-
+<p style="text-align: center; ">This is your Communication Plan.<br>Use the slider scales below to tell the computer the probability with which each message should be sent.</P>
+    
     <br>
     <br>
 
     <div style="display: flex; margin: 20px; text-align: center;">
         <div style="flex-grow:3; display: flex;">
             <div style="flex-grow: 1">
-                <h4>If the ball is RED</h4>
+                <h4>If a <span style="color: red">Red</span> ball is drawn</h4>
                 <div class="trow">
-                    <div>Send Message</div>
+                    <div>Send the message:</div>
                     <div>with probability:</div>
                 </div>
                 <hr>
                 <div class="trow">
-                    <div>Red</div>
+                    <div>"The ball is Red"</div>
                     <input type="number" value="5" max="100" min="0" step=1 name="if_red_send_red" id="if_red_send_red">
                 </div>
                 <hr>
                 <div class="trow">
-                    <div>Blue</div>
+                    <div>"The ball is Blue"</div>
                     <input type="number" value="5" max="100" min="0" step=1 name="if_red_send_blue" id="if_red_send_blue">
                 </div>
                 <hr>
@@ -82,19 +82,19 @@
         <div style="flex-grow:1"></div>
         <div style="flex-grow:3; display: flex;">
             <div style="flex-grow: 1">
-                <h4>If the ball is BLUE</h4>
+                <h4>If a <span style="color: blue">Blue</span> ball is drawn</h4>
                 <div class="trow">
-                    <div>Send Message</div>
+                    <div>Send the message:</div>
                     <div>with probability:</div>
                 </div>
                 <hr>
                 <div class="trow">
-                    <div>Red</div>
+                    <div>"The ball is Red"</div>
                     <input type="number" value="5" max="100" min="0" step=1 name="if_blue_send_red" id="if_blue_send_red">
                 </div>
                 <hr>
                 <div class="trow">
-                    <div>Blue</div>
+                    <div>"The ball is Blue"</div>
                     <input type="number" value="5" max="100" min="0" step=1 name="if_blue_send_blue" id="if_blue_send_blue">
                 </div>
                 <hr>
@@ -110,6 +110,9 @@
             </div>
         </div>
     </div>
+
+    <br>
+    <br>
 
     <div style="text-align: center;">
         <button id="submit" class="btn btn-primary" style="display: none;">Next</button>

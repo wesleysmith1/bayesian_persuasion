@@ -1,5 +1,5 @@
 {{ block title }}
-    Guessing Stage
+    Round {{player.round_number}} of {{C.NUM_ROUNDS}}
 {{ endblock }}
 
 {{ block content }}
@@ -16,6 +16,9 @@
         padding-left: 40px;
         border-left: 1px solid black;
     }
+    div {
+        font-size: 20px;
+    }
 </style>
     <br>
     <div style="display: flex">
@@ -27,79 +30,50 @@
         <br>
         
         <div class="guessPlan" >
-            <h4>Choose your GUESSING PLAN</h4>
+            <h4>Below is your Guessing Plan</h4>
+            <p style="font-size: 20px;">For each of the following situations, tell the computer how to guess the color of the ball.</p>
             <br>
             <div style="display: flex;">
                 <div style="width: 400px;">
                     <div>
-                        If I receive Message...
+                        If the message is:
                     </div>
                     <br>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">
-                            <img src="{{ static 'global/mail.svg' }}"/>
-                        </span>
-                        <input 
-                            type="text" 
-                            class="form-control" 
-                            placeholder="Username" 
-                            aria-label="The Ball is Red{% if form_elements > 2 %}' and no lie is detected'{% endif %}" 
-                            aria-describedby="basic-addon1" 
-                            disabled 
-                            value="The Ball is Red{% if form_elements > 2 %}' and no lie is detected'{% endif %}">
+                    <div>
+                        "The ball is Red"
                     </div>
                     {% if form_elements == 4 %}
                     <br>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">
-                            <img src="{{ static 'global/mail.svg' }}"/>
-                        </span>
-                        <input 
-                        type="text" 
-                        class="form-control" 
-                        placeholder="Username" 
-                        aria-label="The Ball is Blue but a lie is detected" 
-                        aria-describedby="basic-addon1" 
-                        disabled 
-                        value="The Ball is Blue but a lie is detected">
+                    <div>
+                        "The ball is Red"
                     </div>
                     {% endif %}
                     <br>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">
-                            <img src="{{ static 'global/mail.svg' }}"/>
-                        </span>
-                        <input 
-                            type="text" 
-                            class="form-control" 
-                            placeholder="Username" 
-                            aria-label="The Ball is Blue{% if form_elements > 2 %}' and no lie is detected'{% endif %}" 
-                            aria-describedby="basic-addon1" 
-                            disabled 
-                            value="The Ball is Blue{% if form_elements > 2 %}' and no lie is detected'{% endif %}">
+                    <div>
+                        "The ball is Blue"
                     </div>
                     {% if form_elements == 4 %}
                     <br>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">
-                            <img src="{{ static 'global/mail.svg' }}"/>
-                        </span>
-                        <input 
-                        type="text" 
-                        class="form-control" 
-                        placeholder="Username" 
-                        aria-label="The Ball is Blue but a lie is detected" 
-                        aria-describedby="basic-addon1" 
-                        disabled 
-                        value="The Ball is Blue but a lie is detected">
+                    <div>
+                        "The ball is Blue"
                     </div>
                     {% endif %}
                     
                 </div>
+
+                <div>
+                    <div>
+                        And this message:
+                    </div>
+                    <div>Is flagged</div>
+                    <div>Is not flagged</div>
+                    <div>Is flagged</div>
+                    <div>Is not flagged</div>
+                </div>
             
                 <div style="width: 200px;" id="formButtons">
                     <div>
-                        ...my guess will be:
+                        Then guess:
                     </div>
                     <div>
                         <br>

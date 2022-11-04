@@ -35,13 +35,13 @@
                 "translate(" + margin.left + "," + margin.top + ")");
 
     let data = [
-            {group: "If the ball is Red", 'Send Red': {{group.if_red_send_red}}, 'Send Blue': {{group.if_red_send_blue}}},
-            {group: "If the ball is Blue", 'Send Red': {{group.if_blue_send_red}}, 'Send Blue': {{group.if_blue_send_blue}}},
+            {group: "If Red ball is drawn", 'Send Red': {{group.if_red_send_red}}, 'Send Blue': {{group.if_red_send_blue}}},
+            {group: "If Blue ball is drawn", 'Send Red': {{group.if_blue_send_red}}, 'Send Blue': {{group.if_blue_send_blue}}},
         ]
 
     let subgroups = ['Send Red', 'Send Blue']
 
-    let groups = ["If the ball is Red", "If the ball is Blue"]
+    let groups = ["If Red ball is drawn", "If Blue ball is drawn"]
 
     // Add X axis
     var x = d3.scaleBand()
@@ -116,7 +116,7 @@
         .attr("transform", "translate("+ (-30) +","+(height/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
         .text("Probability");
 
-    let legendKeys = ["Send Red Message", "Send Blue Message"]
+    let legendKeys = ["Send \"The ball is Red\"", "Send \"The ball is Blue\""]
     let legedColors = ["blue", "red"]
     let size = 20
     svg.selectAll("mydots")
@@ -140,15 +140,16 @@
             .attr("text-anchor", "left")
             .style("alignment-baseline", "middle")
 
-    let probabilityLabels = ["(Probability 66%)", "(Probability 33%)"]
+    let probabilityLabels = ["(Happens with prob 33%)", "(Happens with prob 67%)"]
 
     svg.selectAll("mylabels")
         .data(probabilityLabels)
         .enter()
         .append("text")
-            .attr("x", function(d,i){ return 60 + i*(size+150) })
+            .attr("x", function(d,i){ return 55  + i*(size+150) })
             .attr("y", function(d,i){ return 305}) // 100 is where the first dot appears. 25 is the distance between dots
             .text(function(d){ return d})
             .attr("text-anchor", "left")
+            .attr("font-size", "12px")
             .style("alignment-baseline", "middle")
 </script>

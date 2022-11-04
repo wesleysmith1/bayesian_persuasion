@@ -21,8 +21,8 @@ class C(BaseConstants):
     R = 'Red'
     B = 'Blue'
 
-    PROBABILITY_BLUE = 33.33
-    PROBABILITY_RED = 66.66
+    PROBABILITY_BLUE = 67
+    PROBABILITY_RED = 33
 
     CHART_TEMPLATE = 'main/chart.html'
     LOADING_TEMPLATE = 'main/loading.html'
@@ -146,7 +146,7 @@ class GuessingStage(Page):
     def vars_for_template(player: Player):
         return dict(
                 form_elements= 4 if player.session.config["flagged"] > 0 else 2,
-                chart_title="COMMUNICATION PLAN",
+                chart_title="The Sender chose this Communication Plan:",
             )
 
 
