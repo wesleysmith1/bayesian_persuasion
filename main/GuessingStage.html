@@ -10,19 +10,25 @@
     }
     button {
         margin-bottom: 1rem!important;
-        margin-left: 20px;
+        /* margin-left: 20px; */
     }
     .guessPlan {
-        padding-left: 40px;
+        padding-left: 30px;
         border-left: 1px solid black;
+        margin-left: 30px;
     }
     div {
-        font-size: 20px;
+        font-size: 17px;
+    }
+    .trow {
+        display: flex;
+        justify-content: space-between;
     }
 </style>
     <br>
     <div style="display: flex">
         <div style="flex-grow:2">
+            <div style="font-size: 20px; text-align: center;">{{chart_title}}</div>
             <!-- Create a div where the graph will take place -->
             {{ include C.CHART_TEMPLATE }}
         </div>
@@ -33,74 +39,75 @@
             <h4>Below is your Guessing Plan</h4>
             <p style="font-size: 20px;">For each of the following situations, tell the computer how to guess the color of the ball.</p>
             <br>
-            <div style="display: flex;">
-                <div style="width: 400px;">
-                    <div>
-                        If the message is:
-                    </div>
-                    <br>
-                    <div>
-                        "The ball is Red"
-                    </div>
-                    {% if form_elements == 4 %}
-                    <br>
-                    <div>
-                        "The ball is Red"
-                    </div>
-                    {% endif %}
-                    <br>
-                    <div>
-                        "The ball is Blue"
-                    </div>
-                    {% if form_elements == 4 %}
-                    <br>
-                    <div>
-                        "The ball is Blue"
-                    </div>
-                    {% endif %}
-                    
-                </div>
 
+            <div class="trow">
                 <div>
-                    <div>
-                        And this message:
-                    </div>
-                    <div>Is flagged</div>
-                    <div>Is not flagged</div>
-                    <div>Is flagged</div>
-                    <div>Is not flagged</div>
+                    If the message is:
                 </div>
-            
-                <div style="width: 200px;" id="formButtons">
-                    <div>
-                        Then guess:
-                    </div>
-                    <div>
-                        <br>
-                        <button class="btn btn-outline-danger" type="button" id="if_red_send_red" onclick="select(this.id)">RED</button>
-                        <button class="btn btn-outline-primary" type="button" id="if_red_send_blue" onclick="select(this.id)">BLUE</button>
-                    </div>
-                    {% if form_elements == 4 %}
-                    <div>
-                        <br>
-                        <button class="btn btn-outline-danger" type="button" id="if_red_flagged_send_red" onclick="select(this.id)">RED</button>
-                        <button class="btn btn-outline-primary" type="button" id="if_red_flagged_send_blue" onclick="select(this.id)">BLUE</button>
-                    </div>
-                    {% endif %}
-                    <div>
-                        <br>
-                        <button class="btn btn-outline-danger" type="button" id="if_blue_send_red" onclick="select(this.id)">RED</button>
-                        <button class="btn btn-outline-primary" type="button" id="if_blue_send_blue" onclick="select(this.id)">BLUE</button>
-                    </div>
-                    {% if form_elements == 4 %}
-                    <div>
-                        <br>
-                        <button class="btn btn-outline-danger" type="button" id="if_blue_flagged_send_red" onclick="select(this.id)">RED</button>
-                        <button class="btn btn-outline-primary" type="button" id="if_blue_flagged_send_blue" onclick="select(this.id)">BLUE</button>
-                    </div>
-                    {% endif %}
+                <div>
+                    And this message:
+                </div>
+                <div>
+                    Then guess:
                 </div>
             </div>
+            <hr>
+            <div class="trow">
+                <div>
+                    "The ball is Red"
+                </div>
+                <div>
+                    Is not flagged
+                </div>
+                <div>
+                    <button class="btn btn-outline-danger" type="button" id="if_red_send_red" onclick="select(this.id)">RED</button>
+                    <button class="btn btn-outline-primary" type="button" id="if_red_send_blue" onclick="select(this.id)">BLUE</button>
+                </div>
+            </div>
+            <hr>
+            <div class="trow">
+                {% if form_elements == 4 %}
+                <div>
+                    "The ball is Red"
+                </div>
+                <div>
+                    Is flagged &#9873;
+                </div>
+                <div>
+                    <button class="btn btn-outline-danger" type="button" id="if_red_flagged_send_red" onclick="select(this.id)">RED</button>
+                    <button class="btn btn-outline-primary" type="button" id="if_red_flagged_send_blue" onclick="select(this.id)">BLUE</button>
+                </div>
+                {% endif %}
+            </div>
+            <hr>
+            <div class="trow">
+                <div>
+                    "The ball is Blue"
+                </div>
+                <div>
+                    Is not flagged
+                </div>
+                <div>
+                    <button class="btn btn-outline-danger" type="button" id="if_blue_send_red" onclick="select(this.id)">RED</button>
+                    <button class="btn btn-outline-primary" type="button" id="if_blue_send_blue" onclick="select(this.id)">BLUE</button>
+                </div>
+            </div>
+            <hr>
+            <div class="trow">
+                <div>
+                    "The ball is Blue"
+                </div>
+                <div>
+                    Is flagged &#9873;
+                </div>
+                <div>
+                    <button class="btn btn-outline-danger" type="button" id="if_blue_flagged_send_red" onclick="select(this.id)">RED</button>
+                    <button class="btn btn-outline-primary" type="button" id="if_blue_flagged_send_blue" onclick="select(this.id)">BLUE</button>
+                </div>
+            </div>
+            <br>
+
+            
         </div>
 
         <div style="display: none;">
@@ -175,7 +182,7 @@
                     // code block
             }
 
-            if ($('#formButtons .btn-danger, #formButtons .btn-primary').length == formElements) {
+            if ($('.btn-danger, .btn-primary').length == formElements + 1) {
                 $("#submit").show();
             }
 

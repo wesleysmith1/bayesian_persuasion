@@ -5,17 +5,14 @@
 {{ endblock }}
 {{ block content }}
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/Draggable.min.js"></script>
+
 <style>
     .trow {
         display: flex;
         justify-content: space-evenly;
     }
-</style>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/Draggable.min.js"></script>
-
-<style>
     .slider {
         background: blue;
         height: 25px;
@@ -41,6 +38,19 @@
         display: flex;
         justify-content: space-between;
         margin: auto;   
+    }
+
+    input[type="number"]::-webkit-outer-spin-button, 
+    input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        background: #FFF url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAKUlEQVQYlWNgwAT/sYhhKPiPT+F/LJgEsHv37v+EMGkmkuImoh2NoQAANlcun/q4OoYAAAAASUVORK5CYII=) no-repeat center center;
+        width: 1em;
+        border-left: 1px solid #BBB;
+        opacity: 1; /* shows Spin Buttons per default (Chrome >= 39) */
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
     }
 </style>
 
@@ -242,7 +252,7 @@
                         $(a).val(100 - x)
                     }
 
-                    slider.set(x)
+                    slider.set(100 - x)
 
                     receivedInputs[receivedKey] = true
                     displayNext()

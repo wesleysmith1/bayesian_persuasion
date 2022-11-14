@@ -29,7 +29,7 @@ class C(BaseConstants):
 
     ROUND_PAY = cu(2)
 
-    LOADING_INTERVAL = 5000 #3000
+    LOADING_INTERVAL = 3000
 
     LOADING_STAGES = [
         ["a", "b"],
@@ -155,7 +155,7 @@ class Summary(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
-        chart_title = "Sender's Communication Plan" if player.role == C.RECEIVER_ROLE else "You chose this Communication Plan"
+        chart_title = "Sender's Communication Plan" if player.role == C.RECEIVER_ROLE else "Your Communication Plan"
         return dict(
                 opponent_payoff=player.get_others_in_group()[0].payoff,
                 chart_title=chart_title,
@@ -167,10 +167,10 @@ class LoadingPage(Page):
     def vars_for_template(player: Player):
         a = [
                 "Drawing a ball from bag", 
-                "Looking at Sender’s Action Plan", 
-                "Generating message with these probabilities", 
+                "Looking at Sender’s Communication Plan", 
+                "Picking message with these probabilities", 
                 "Message is going through Flagging Device",
-                "Looking at Receiver’s Action Plan",
+                "Looking at Receiver’s Guessing Plan",
                 "Calculating payoffs"
             ]
         b = [
@@ -183,12 +183,12 @@ class LoadingPage(Page):
 
         b.append(f"Message sent to receiver = \"Ball is <span style='color: {player.group.message_sent}'>{player.group.message_sent}</span>\"")
 
-        if player.group.message_flagged == None:
+        if player.group.field_maybe_none('message_flagged') == None:
             b.append("Message is true. Cannot get flagged.")
         elif player.group.message_flagged:
-            b.append("<span class='notFlagged'>Message Not Flagged!</span>")
-        else:
             b.append("<span class='flagged'>Message Flagged! &#9873;</span>")
+        else:
+            b.append("<span class='notFlagged'>Message Not Flagged!</span>")
 
         b.append(f"Receiver’s guess = {player.group.guess}")
 

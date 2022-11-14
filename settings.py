@@ -17,6 +17,9 @@ SESSION_CONFIGS = [
     dict(
         display_name="payment", name="payment", app_sequence=['payment'], num_demo_participants=1,
     ),
+    dict(
+        display_name="instructions", name="instructions", app_sequence=['instructions'], num_demo_participants=1, flagged=.5
+    )
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
