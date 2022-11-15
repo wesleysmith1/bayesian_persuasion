@@ -6,6 +6,7 @@
 <style>
     img {
         border: 1px solid black;
+        width: 75%;
     }
     .hide {
         display: none;
@@ -215,7 +216,9 @@
             The <b>Sender</b> will choose these probabilities using slider scales. The <b>Sender’s</b> decision screen will look something like this:
         </p>
 
-        <img src="{{ static 'global/sender.PNG' }}"/>
+        <div class="center">
+            <img src="{{ static 'global/sender.PNG' }}"/>
+        </div>
 
         <br>
         <p>
@@ -295,8 +298,11 @@
 
         <p>The <b>Receiver’s</b> decision screen will look something like this:</p>
 
-        <img src="{{ static 'global/receiver.PNG' }}"/>
+        <div class="center">
+            <img src="{{ static 'global/receiver.PNG' }}"/>
+        </div>
 
+        <br>
         <br>
         <p class="half center">
             <b>Next:</b> We will explain how the computer implements a single round.
