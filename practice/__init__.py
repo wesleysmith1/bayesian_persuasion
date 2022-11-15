@@ -106,11 +106,11 @@ class GuessingStage(Page):
         elif player.ball_color == C.B:
             player.message_sent = random.choices([C.R, C.B], [player.if_blue_send_red, player.if_blue_send_blue])[0]
 
-        # is message false
+        # is message flagged
         if player.ball_color != player.message_sent and player.session.config['flagged'] > 0:
             player.message_flagged = random.random() < player.session.config['flagged']
 
-        if player.ball_color == C.R:
+        if player.message_sent == C.R:
             if player.field_maybe_none('message_flagged'):
                 player.guess = player.if_red_guess
             else:

@@ -102,11 +102,11 @@ class Wait2(WaitPage):
         elif group.ball_color == C.B:
             group.message_sent = random.choices([C.R, C.B], [group.if_blue_send_red, group.if_blue_send_blue])[0]
 
-        # is message false
+        # is message flagged
         if group.ball_color != group.message_sent and group.session.config['flagged'] > 0:
             group.message_flagged = random.random() < group.session.config['flagged']
 
-        if group.ball_color == C.R:
+        if group.message_sent == C.R:
             if group.field_maybe_none('message_flagged'):
                 group.guess = group.if_red_guess
             else:
