@@ -18,8 +18,8 @@ class C(BaseConstants):
     PROBABILITY_BLUE = 67
     PROBABILITY_RED = 33
 
-    CHART_TEMPLATE = 'main/chart.html'
-    LOADING_TEMPLATE = 'main/loading.html'
+    CHART_TEMPLATE = 'practice/chart.html'
+    LOADING_TEMPLATE = 'practice/loading.html'
 
     ROUND_PAY = cu(2)
 
@@ -38,6 +38,10 @@ class Subsession(BaseSubsession):
 
 
 class Group(BaseGroup):
+    pass
+
+
+class Player(BasePlayer):
     if_red_send_red = models.IntegerField()
     if_red_send_blue = models.IntegerField()
     if_blue_send_red = models.IntegerField()
@@ -57,10 +61,6 @@ class Group(BaseGroup):
     sender_payoff = models.CurrencyField(initial=0)
 
 
-class Player(BasePlayer):
-    pass
-
-
 # FUNCTIONS
 def creating_session(subsession: Subsession):
     pass
@@ -68,7 +68,7 @@ def creating_session(subsession: Subsession):
 
 # PAGES
 class CommunicationStage(Page):
-    form_model = 'group'
+    form_model = 'player'
     form_fields = ['if_red_send_red', 'if_red_send_blue', 'if_blue_send_red', 'if_blue_send_blue']
 
     @staticmethod
@@ -80,46 +80,8 @@ class CommunicationStage(Page):
             return 'The numbers must add up to 100'
 
 
-class Wait1(WaitPage):
-    pass
-
-
-class Wait2(WaitPage):
-    @staticmethod
-    def after_all_players_arrive(group: Group):
-
-        group.ball_color = random.choices([C.R, C.B], [C.PROBABILITY_RED, C.PROBABILITY_BLUE])[0]
-
-        if group.ball_color == C.R:
-            group.message_sent = random.choices([C.R, C.B], [group.if_red_send_red, group.if_red_send_blue])[0]
-        elif group.ball_color == C.B:
-            group.message_sent = random.choices([C.R, C.B], [group.if_blue_send_red, group.if_blue_send_blue])[0]
-
-        # is message false
-        if group.ball_color != group.message_sent and group.session.config['flagged'] > 0:
-            group.message_flagged = random.random() < group.session.config['flagged']
-
-        if group.ball_color == C.R:
-            if group.field_maybe_none('message_flagged'):
-                group.guess = group.if_red_flagged_guess
-            else:
-                group.guess = group.if_red_guess
-        else:
-            if group.field_maybe_none('message_flagged'):
-                group.guess = group.if_blue_flagged_guess
-            else:
-                group.guess = group.if_blue_guess
-
-        # payoffs
-        if group.guess == C.R:
-            group.sender_payoff = C.ROUND_PAY
-
-        if group.ball_color == group.guess:
-            group.receiver_payoff = C.ROUND_PAY
-
-
 class GuessingStage(Page):
-    form_model = 'group'
+    form_model = 'player'
 
     @staticmethod
     def get_form_fields(player):
@@ -135,6 +97,36 @@ class GuessingStage(Page):
                 chart_title="The Sender chose this Communication Plan:",
             )
 
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        player.ball_color = random.choices([C.R, C.B], [C.PROBABILITY_RED, C.PROBABILITY_BLUE])[0]
+
+        if player.ball_color == C.R:
+            player.message_sent = random.choices([C.R, C.B], [player.if_red_send_red, player.if_red_send_blue])[0]
+        elif player.ball_color == C.B:
+            player.message_sent = random.choices([C.R, C.B], [player.if_blue_send_red, player.if_blue_send_blue])[0]
+
+        # is message false
+        if player.ball_color != player.message_sent and player.session.config['flagged'] > 0:
+            player.message_flagged = random.random() < player.session.config['flagged']
+
+        if player.ball_color == C.R:
+            if player.field_maybe_none('message_flagged'):
+                player.guess = player.if_red_flagged_guess
+            else:
+                player.guess = player.if_red_guess
+        else:
+            if player.field_maybe_none('message_flagged'):
+                player.guess = player.if_blue_flagged_guess
+            else:
+                player.guess = player.if_blue_guess
+
+        # payoffs
+        if player.guess == C.R:
+            player.sender_payoff = C.ROUND_PAY
+
+        if player.ball_color == player.guess:
+            player.receiver_payoff = C.ROUND_PAY
 
 class Summary(Page):
     pass
@@ -168,26 +160,26 @@ class LoadingPage(Page):
             a.remove("Message is going through Flagging Device")
 
         b = [
-            f"<span style='color: {player.group.ball_color}'>{player.group.ball_color}</span> ball is drawn",
+            f"<span style='color: {player.ball_color}'>{player.ball_color}</span> ball is drawn",
         ]
-        if player.group.ball_color == C.R:
-            b.append(f"Sender's choice: <br>&nbsp;Send \"<span class='red'>Ball is Red</span>\" with {player.group.if_red_send_red}% chance <br>&nbsp;Send \"<span class='blue'>Ball is Blue</span>\" with {player.group.if_red_send_blue}% chance")
+        if player.ball_color == C.R:
+            b.append(f"Sender's choice: <br>&nbsp;Send \"<span class='red'>Ball is Red</span>\" with {player.if_red_send_red}% chance <br>&nbsp;Send \"<span class='blue'>Ball is Blue</span>\" with {player.if_red_send_blue}% chance")
         else:
-            b.append(f"Sender's choice: <br>&nbsp;Send \"<span class='red'>Ball is Red</span>\" with {player.group.if_blue_send_red}% chance <br>&nbsp;Send \"<span class='blue'>Ball is Blue</span>\" with {player.group.if_blue_send_blue}% chance")
+            b.append(f"Sender's choice: <br>&nbsp;Send \"<span class='red'>Ball is Red</span>\" with {player.if_blue_send_red}% chance <br>&nbsp;Send \"<span class='blue'>Ball is Blue</span>\" with {player.if_blue_send_blue}% chance")
 
-        b.append(f"Message sent to receiver = \"<span style='color: {player.group.message_sent}'>Ball is {player.group.message_sent}</span>\"")
+        b.append(f"Message sent to receiver = \"<span style='color: {player.message_sent}'>Ball is {player.message_sent}</span>\"")
 
         if form_elements == 4:
-            if player.group.field_maybe_none('message_flagged') == None:
+            if player.field_maybe_none('message_flagged') == None:
                 b.append("Message is true. Cannot get flagged.")
-            elif player.group.message_flagged:
+            elif player.message_flagged:
                 b.append("<span class='flagged'>Message Flagged! &#9873;</span>")
             else:
                 b.append("<span class='notFlagged'>Message Not Flagged!</span>")
 
-        b.append(f"Receiver’s guess = <span class='{player.group.guess}'>{player.group.guess}</span>")
+        b.append(f"Receiver’s guess = <span class='{player.guess}'>{player.guess}</span>")
 
-        b.append(f"Sender earns {player.group.sender_payoff} (because Receiver guessed <span class='{player.group.guess}'>{player.group.guess}</span>)<br>Receiver earns {player.group.receiver_payoff} (because guess was {'correct' if player.group.ball_color == player.group.guess else 'incorrect'})")
+        b.append(f"Sender earns {player.sender_payoff} (because Receiver guessed <span class='{player.guess}'>{player.guess}</span>)<br>Receiver earns {player.receiver_payoff} (because guess was {'correct' if player.ball_color == player.guess else 'incorrect'})")
 
         return dict(
                     form_elements= 4 if player.session.config["flagged"] > 0 else 2,
@@ -195,4 +187,4 @@ class LoadingPage(Page):
                     final=b
                 )
 
-page_sequence = [CommunicationStage, Wait1, GuessingStage, Wait2, LoadingPage, Summary]
+page_sequence = [CommunicationStage, GuessingStage, LoadingPage, Summary]

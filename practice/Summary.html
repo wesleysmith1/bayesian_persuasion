@@ -46,14 +46,14 @@
     </thead>
     <tbody>
         <tr>
-            <td>{{group.ball_color}}</td>
-            <td>{{group.message_sent}}</td>
+            <td>{{player.ball_color}}</td>
+            <td>{{player.message_sent}}</td>
             {% if form_elements == 4 %}
-                {% if group.field_maybe_none('message_flagged') == None %}
+                {% if player.field_maybe_none('message_flagged') == None %}
                 <td>
                     N/A (message was true)
                 </td>
-                {% elif group.message_flagged %}
+                {% elif player.message_flagged %}
                 <td class="flagged">
                     Flagged
                 </td>
@@ -63,9 +63,9 @@
                 </td>
                 {% endif %}
             {% endif %}
-            <td>{{group.guess}}</td>
-            <td>{{player.group.sender_payoff}}</td>
-            <td id="payoff">{{player.group.receiver_payoff}}</td>
+            <td>{{player.guess}}</td>
+            <td>{{player.sender_payoff}}</td>
+            <td id="payoff">{{player.receiver_payoff}}</td>
         </tr>
     </tbody>
 </table>
@@ -81,13 +81,13 @@
     <div>
         <p style="font-size: 20px; text-align: center;">Receiver's Guessing Plan</p>
         <div>
-            <p>If the message is "<span class="red">The ball is Red</span>" {% if form_elements == 4 %}and it is not flagged{% endif %}, then guess <b><span class="{{group.if_red_guess}}">{{group.if_red_guess}}</span></b></p>
-            {% if group.field_maybe_none('if_red_flagged_guess')%}
-                <p>If the message is "<span class="red">The ball is Red</span>" and it is <span class="flagged">&#9873; flagged &#9873;</span>, then guess <b><span class="{{group.if_red_flagged_guess}}">{{group.if_red_flagged_guess}}</span></b></p>
+            <p>If the message is "<span class="red">The ball is Red</span>" {% if form_elements == 4 %}and it is not flagged{% endif %}, then guess <b><span class="{{player.if_red_guess}}">{{player.if_red_guess}}</span></b></p>
+            {% if player.field_maybe_none('if_red_flagged_guess')%}
+                <p>If the message is "<span class="red">The ball is Red</span>" and it is <span class="flagged">&#9873; flagged &#9873;</span>, then guess <b><span class="{{player.if_red_flagged_guess}}">{{player.if_red_flagged_guess}}</span></b></p>
             {% endif %}
-            <p>If the message is "<span class="blue">The ball is Blue</span>" and it is not flagged, then guess <b><span class="{{group.if_blue_guess}}">{{group.if_blue_guess}}</span></b></p>
-            {% if group.field_maybe_none('if_blue_flagged_guess')%}
-                <p>If the message is "<span class="blue">The ball is Blue</span>" {% if form_elements == 4 %}and it is <span class="flagged">&#9873; flagged &#9873;</span>{% endif %}, then guess <b><span class="{{group.if_blue_flagged_guess}}">{{group.if_blue_flagged_guess}}</span></b></p>
+            <p>If the message is "<span class="blue">The ball is Blue</span>" and it is not flagged, then guess <b><span class="{{player.if_blue_guess}}">{{player.if_blue_guess}}</span></b></p>
+            {% if player.field_maybe_none('if_blue_flagged_guess')%}
+                <p>If the message is "<span class="blue">The ball is Blue</span>" {% if form_elements == 4 %}and it is <span class="flagged">&#9873; flagged &#9873;</span>{% endif %}, then guess <b><span class="{{player.if_blue_flagged_guess}}">{{player.if_blue_flagged_guess}}</span></b></p>
             {% endif %}
         </div>
     </div>
