@@ -1,6 +1,7 @@
 {{ block title }}
     <div style="text-align: center;">
-        Round {{player.round_number}} of {{C.NUM_ROUNDS}}
+        <div>Round {{player.round_number}} of {{C.NUM_ROUNDS}}</div>
+        <div>You are the Sender</div>
     </div>
 {{ endblock }}
 {{ block content }}
@@ -52,7 +53,17 @@
         right: 0;
         bottom: 0;
     }
+
+    .red {
+        color: red;
+    }
+    .blue {
+        color: blue;
+    }
 </style>
+
+<br>
+<br>
 
 <p style="text-align: center; ">This is your Communication Plan.<br>Use the slider scales below to tell the computer the probability with which each message should be sent.</P>
     
@@ -69,12 +80,12 @@
                 </div>
                 <hr>
                 <div class="trow">
-                    <div>"The ball is Red"</div>
+                    <div>"<span class="red">The ball is Red</span>"</div>
                     <input type="number" value="5" max="100" min="0" step=1 name="if_red_send_red" id="if_red_send_red">
                 </div>
                 <hr>
                 <div class="trow">
-                    <div>"The ball is Blue"</div>
+                    <div>"<span class="blue">The ball is Blue</span>"</div>
                     <input type="number" value="5" max="100" min="0" step=1 name="if_red_send_blue" id="if_red_send_blue">
                 </div>
                 <hr>
@@ -99,12 +110,12 @@
                 </div>
                 <hr>
                 <div class="trow">
-                    <div>"The ball is Red"</div>
+                    <div>"<span class="red">The ball is Red</span>"</div>
                     <input type="number" value="5" max="100" min="0" step=1 name="if_blue_send_red" id="if_blue_send_red">
                 </div>
                 <hr>
                 <div class="trow">
-                    <div>"The ball is Blue"</div>
+                    <div>"<span class="blue">The ball is Blue</span>"</div>
                     <input type="number" value="5" max="100" min="0" step=1 name="if_blue_send_blue" id="if_blue_send_blue">
                 </div>
                 <hr>

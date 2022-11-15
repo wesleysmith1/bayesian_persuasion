@@ -5,6 +5,9 @@
 {{ block content }}
 
 <style>
+    .center {
+        text-align: center;
+    }
     .flagged {
         color: red;
         font-weight: bolder;
@@ -15,6 +18,15 @@
         font-weight: bolder;
         background: rgb(133, 250, 133) !important;
     }
+    .red, .Red {
+        color: red;
+    }
+    .blue, .Blue {
+        color: blue;
+    }
+    table {
+        font-size: 20px;
+    }
 </style>
 
 <table class="table table-dark">
@@ -22,34 +34,38 @@
         <tr>
             <th scope="col">Ball Color</th>
             <th scope="col">Message Sent</th>
+            {% if form_elements == 4 %}
             <th scope="col">Flagged</th>
+            {% endif %}
             <th scope="col">Guess</th>
-            <th scope="col">Your Payoff</th>
             <th scope="col">
                 {% if player.role == C.RECEIVER_ROLE %}Sender's Payoff{% else %}Receiver's Payoff{% endif %}
             </th>
+            <th scope="col">Your Payoff</th>
         </tr>
     </thead>
     <tbody>
         <tr>
             <td>{{group.ball_color}}</td>
             <td>{{group.message_sent}}</td>
-            {% if group.field_maybe_none('message_flagged') == None %}
-            <td>
-                N/A (message was true)
-            </td>
-            {% elif group.message_flagged %}
-            <td class="flagged">
-                Flagged
-            </td>
-            {% else %}
-            <td class="notFlagged">
-                Not Flagged
-            </td>
+            {% if form_elements == 4 %}
+                {% if group.field_maybe_none('message_flagged') == None %}
+                <td>
+                    N/A (message was true)
+                </td>
+                {% elif group.message_flagged %}
+                <td class="flagged">
+                    Flagged
+                </td>
+                {% else %}
+                <td class="notFlagged">
+                    Not Flagged
+                </td>
+                {% endif %}
             {% endif %}
             <td>{{group.guess}}</td>
-            <td id="payoff">{{player.payoff}}</td>
             <td>{{opponent_payoff}}</td>
+            <td id="payoff">{{player.payoff}}</td>
         </tr>
     </tbody>
 </table>
@@ -58,24 +74,29 @@
 <hr>
 
 <div style="display: flex; justify-content: space-between;">
-    <div>
+    <div style="border-right: 1px solid black; padding-right: 10px; margin-right: 5px;">
         <div style="font-size: 20px; text-align: center;">{{chart_title}}</div>
         {{ include C.CHART_TEMPLATE }}
     </div>
     <div>
         <p style="font-size: 20px; text-align: center;">{% if player.role == C.RECEIVER_ROLE %}Your Guessing Plan{% else %}Receiver's Guessing Plan{% endif %}</p>
-        <div style="border: 1px solid black; padding: 15px;">
-            <p>If the message is "The ball is Red" and it is not flagged, then guess <b>{{group.if_red_guess}}</b></p>
+        <div>
+            <p>If the message is "<span class="red">The ball is Red</span>" {% if form_elements == 4 %}and it is not flagged{% endif %}, then guess <b><span class="{{group.if_red_guess}}">{{group.if_red_guess}}</span></b></p>
             {% if group.field_maybe_none('if_red_flagged_guess')%}
-                <p>If the message is "The ball is Red" and it is flagged, then guess <b>{{group.if_red_flagged_guess}}</b></p>
+                <p>If the message is "<span class="red">The ball is Red</span>" and it is <span class="flagged">&#9873; flagged &#9873;</span>, then guess <b><span class="{{group.if_red_flagged_guess}}">{{group.if_red_flagged_guess}}</span></b></p>
             {% endif %}
-            <p>If the message is "The ball is Blue" and it is not flagged, then guess <b>{{group.if_blue_guess}}</b></p>
+            <p>If the message is "<span class="blue">The ball is Blue</span>" and it is not flagged, then guess <b><span class="{{group.if_blue_guess}}">{{group.if_blue_guess}}</span></b></p>
             {% if group.field_maybe_none('if_blue_flagged_guess')%}
-                <p>If the message is "The ball is Blue" and it is flagged, then guess <b>{{group.if_blue_flagged_guess}}</b></p>
+                <p>If the message is "<span class="blue">The ball is Blue</span>" {% if form_elements == 4 %}and it is <span class="flagged">&#9873; flagged &#9873;</span>{% endif %}, then guess <b><span class="{{group.if_blue_flagged_guess}}">{{group.if_blue_flagged_guess}}</span></b></p>
             {% endif %}
         </div>
     </div>
 </div>
+
+<br>
+<div class="center">Total earnings so far = {{participant.payoff}}</div>
+<br>
+
 <div style="text-align: center">
     {{ next_button }}
 </div>

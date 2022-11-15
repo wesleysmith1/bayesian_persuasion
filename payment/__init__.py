@@ -21,17 +21,19 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    pass
+    name = models.StringField()
 
 
 # PAGES
-class Payment(Page):
+class Payment1(Page):
+    form_model = 'player'
+    form_fields = ['name']
 
+
+class Payment2(Page):
     @staticmethod
     def vars_for_template(player: Player):
-        return dict(
-            participation_fee=player.session.config['participation_fee']
-        )
+        return dict(participation_fee=player.session.config['participation_fee'],)
 
 
-page_sequence = [Payment,]
+page_sequence = [Payment1, Payment2]

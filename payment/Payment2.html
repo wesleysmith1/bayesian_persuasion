@@ -1,0 +1,22 @@
+{{ block title }}
+    Payment
+{{ endblock }}
+
+{{ block content }}
+
+    <p>
+        You earned {{participant.payoff_plus_participation_fee()}}.
+    </p>
+
+    <p>
+        You earned {{ participation_fee }} from the showup fee, and {{participant.payoff}} from your participation in the experiment.
+    </p>
+
+    <p>
+        Please remain seated until your name is called. 
+        When your name is called, please stop by at the front desk to collect your payment and then proceed to the exit.
+    </p>
+
+    {{ next_button }}
+
+{{ endblock }}

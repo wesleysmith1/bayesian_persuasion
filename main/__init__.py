@@ -157,6 +157,7 @@ class Summary(Page):
     def vars_for_template(player: Player):
         chart_title = "Sender's Communication Plan" if player.role == C.RECEIVER_ROLE else "Your Communication Plan"
         return dict(
+                form_elements= 4 if player.session.config["flagged"] > 0 else 2,
                 opponent_payoff=player.get_others_in_group()[0].payoff,
                 chart_title=chart_title,
             )
@@ -165,6 +166,9 @@ class Summary(Page):
 class LoadingPage(Page):
     @staticmethod
     def vars_for_template(player: Player):
+
+        form_elements= 4 if player.session.config["flagged"] > 0 else 2
+
         a = [
                 "Drawing a ball from bag", 
                 "Looking at Sender’s Communication Plan", 
@@ -173,29 +177,39 @@ class LoadingPage(Page):
                 "Looking at Receiver’s Guessing Plan",
                 "Calculating payoffs"
             ]
+        
+        # remove flagging device with q=0
+        if form_elements == 2:
+            a.remove("Message is going through Flagging Device")
+
         b = [
             f"<span style='color: {player.group.ball_color}'>{player.group.ball_color}</span> ball is drawn",
         ]
         if player.group.ball_color == C.R:
-            b.append(f"Sender's choice: <br>&nbsp;Send \"Ball is Red\" with {player.group.if_red_send_red}% chance <br>&nbsp;Send \"Ball is Blue\" with {player.group.if_red_send_blue}% chance")
+            b.append(f"Sender's choice: <br>&nbsp;Send \"<span class='red'>Ball is Red</span>\" with {player.group.if_red_send_red}% chance <br>&nbsp;Send \"<span class='blue'>Ball is Blue</span>\" with {player.group.if_red_send_blue}% chance")
         else:
-            b.append(f"Sender's choice: <br>&nbsp;Send \"Ball is Red\" with {player.group.if_blue_send_red}% chance <br>&nbsp;Send \"Ball is Blue\" with {player.group.if_blue_send_blue}% chance")
+            b.append(f"Sender's choice: <br>&nbsp;Send \"<span class='red'>Ball is Red</span>\" with {player.group.if_blue_send_red}% chance <br>&nbsp;Send \"<span class='blue'>Ball is Blue</span>\" with {player.group.if_blue_send_blue}% chance")
 
-        b.append(f"Message sent to receiver = \"Ball is <span style='color: {player.group.message_sent}'>{player.group.message_sent}</span>\"")
+        b.append(f"Message sent to receiver = \"<span style='color: {player.group.message_sent}'>Ball is {player.group.message_sent}</span>\"")
 
-        if player.group.field_maybe_none('message_flagged') == None:
-            b.append("Message is true. Cannot get flagged.")
-        elif player.group.message_flagged:
-            b.append("<span class='flagged'>Message Flagged! &#9873;</span>")
-        else:
-            b.append("<span class='notFlagged'>Message Not Flagged!</span>")
+        if form_elements == 4:
+            if player.group.field_maybe_none('message_flagged') == None:
+                b.append("Message is true. Cannot get flagged.")
+            elif player.group.message_flagged:
+                b.append("<span class='flagged'>Message Flagged! &#9873;</span>")
+            else:
+                b.append("<span class='notFlagged'>Message Not Flagged!</span>")
 
-        b.append(f"Receiver’s guess = {player.group.guess}")
+        b.append(f"Receiver’s guess = <span class='{player.group.guess}'>{player.group.guess}</span>")
 
         sender = player.group.get_player_by_role(C.SENDER_ROLE)
         receiver = player.group.get_player_by_role(C.RECEIVER_ROLE)
-        b.append(f"Sender earns {sender.payoff} (because receiver guessed {player.group.guess})<br>Receiver earns {receiver.payoff} (because guess was {'correct' if player.group.ball_color == player.group.guess else 'incorrect'})")
+        b.append(f"Sender earns {sender.payoff} (because Receiver guessed <span class='{player.group.guess}'>{player.group.guess}</span>)<br>Receiver earns {receiver.payoff} (because guess was {'correct' if player.group.ball_color == player.group.guess else 'incorrect'})")
 
-        return dict(loading=a, final=b)
+        return dict(
+                    form_elements= 4 if player.session.config["flagged"] > 0 else 2,
+                    loading=a, 
+                    final=b
+                )
 
 page_sequence = [PostPracticeWait, CommunicationStage, Wait1, GuessingStage, Wait2, LoadingPage, Summary]

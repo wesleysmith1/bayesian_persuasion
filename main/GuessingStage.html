@@ -1,5 +1,10 @@
 {{ block title }}
-    Round {{player.round_number}} of {{C.NUM_ROUNDS}}
+    <p>
+        Round {{player.round_number}} of {{C.NUM_ROUNDS}}
+    </p>
+    <p>
+        You are the Receiver
+    </p>
 {{ endblock }}
 
 {{ block content }}
@@ -24,11 +29,21 @@
         display: flex;
         justify-content: space-between;
     }
+    .red {
+        color: red;
+    }
+    .blue {
+        color: blue;
+    }
+    .flagged {
+        background: pink;
+        color: red;
+    }
 </style>
     <br>
     <div style="display: flex">
         <div style="flex-grow:2">
-            <div style="font-size: 20px; text-align: center;">{{chart_title}}</div>
+            <div style="text-align: center;">{{chart_title}}</div>
             <!-- Create a div where the graph will take place -->
             {{ include C.CHART_TEMPLATE }}
         </div>
@@ -37,16 +52,19 @@
         
         <div class="guessPlan" >
             <h4>Below is your Guessing Plan</h4>
-            <p style="font-size: 20px;">For each of the following situations, tell the computer how to guess the color of the ball.</p>
+            <br>
+            <div>For each of the following situations, tell the computer how to guess the color of the ball.</div>
             <br>
 
             <div class="trow">
                 <div>
                     If the message is:
                 </div>
+                {% if form_elements > 2 %}
                 <div>
                     And this message:
                 </div>
+                {% endif %}
                 <div>
                     Then guess:
                 </div>
@@ -54,51 +72,56 @@
             <hr>
             <div class="trow">
                 <div>
-                    "The ball is Red"
+                    "<span class="red">The ball is Red</span>"
                 </div>
+                {% if form_elements > 2 %}
                 <div>
                     Is not flagged
                 </div>
+                {% endif %}
                 <div>
                     <button class="btn btn-outline-danger" type="button" id="if_red_send_red" onclick="select(this.id)">RED</button>
                     <button class="btn btn-outline-primary" type="button" id="if_red_send_blue" onclick="select(this.id)">BLUE</button>
                 </div>
             </div>
             <hr>
+            {% if form_elements == 4 %}
             <div class="trow">
-                {% if form_elements == 4 %}
                 <div>
-                    "The ball is Red"
+                    "<span class="red">The ball is Red</span>"
                 </div>
                 <div>
-                    Is flagged &#9873;
+                    <span class="flagged">&#9873; Is flagged &#9873;</span>
                 </div>
                 <div>
                     <button class="btn btn-outline-danger" type="button" id="if_red_flagged_send_red" onclick="select(this.id)">RED</button>
                     <button class="btn btn-outline-primary" type="button" id="if_red_flagged_send_blue" onclick="select(this.id)">BLUE</button>
                 </div>
-                {% endif %}
             </div>
             <hr>
+            {% endif %}
             <div class="trow">
                 <div>
-                    "The ball is Blue"
+                    "<span class="blue">The ball is Blue</span>"
                 </div>
+                {% if form_elements > 2 %}
                 <div>
                     Is not flagged
                 </div>
+                {% endif %}
                 <div>
                     <button class="btn btn-outline-danger" type="button" id="if_blue_send_red" onclick="select(this.id)">RED</button>
                     <button class="btn btn-outline-primary" type="button" id="if_blue_send_blue" onclick="select(this.id)">BLUE</button>
                 </div>
             </div>
+            {% if form_elements == 4 %}
             <hr>
             <div class="trow">
                 <div>
-                    "The ball is Blue"
+                    "<span class="blue">The ball is Blue</span>"
                 </div>
                 <div>
-                    Is flagged &#9873;
+                    <span class="flagged">&#9873; Is flagged &#9873;</span>
                 </div>
                 <div>
                     <button class="btn btn-outline-danger" type="button" id="if_blue_flagged_send_red" onclick="select(this.id)">RED</button>
@@ -106,6 +129,7 @@
                 </div>
             </div>
             <br>
+            {% endif %}
 
             
         </div>

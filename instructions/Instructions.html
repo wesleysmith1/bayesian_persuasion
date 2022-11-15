@@ -87,29 +87,43 @@
                 There are 20 rounds in this experiment.
             </li>
             <li>
-                Half of the participants will be randomly assigned to be <b>Senders</b>, and the other half will be randomly assigned to be <b>Receivers</b>.
+                Half of you will be <b>Senders</b>, and the other half will be <b>Receivers</b>.
             </li>
             <li>
                 All participants will stay in the same role for all 20 rounds.
             </li>
             <li>
-                In each round each <b>Sender</b> will be randomly paired with a <b>Receiver</b>, so that you will probably not interact with the
-                same person in subsequent rounds.
+                New <b>Sender-Receiver</b> pairs will be made in each round. So, you will probably not 
+                interact with the same person in the next round.
             </li>
             <li>
                 Your final earnings will be the sum of your earnings in each of the 20 rounds plus the $7 participation fee.
             </li>
         </ul>
 
-        <p class="alignList">
-            In each round, participants will be grouped into several <b>Sender-Receiver</b> pairs. Each participant will only interact with the
-            person they are paired with. The <b>Sender</b> and <b>Receiver</b> will each choose a <i>plan</i>. The <b>Sender’s</b> plan is called a <i>Communication
-                Plan</i> and the <b>Receiver’s</b> plan is called a <i>Guessing Plan</i>. The purpose of these plans is to tell the computer what action the
-            participant would take under each situation that they could possibly face. The computer will then use these plans to determine
-            the outcome of a round.
-        </p>
+        <h4>Choosing Plans</h4>
 
-        <p class="alignList">
+        <ul>
+            <li>
+                In each round you only interact with the person that you are paired with. You will make 
+                your decisions by choosing a <i>plan</i>.
+            </li>
+            <li>
+                The <b>Sender’s</b> plan is called a <i>Communication Plan</i>.
+            </li>
+            <li>
+                The <b>Receiver’s</b> plan is called a <i>Guessing Plan</i>.
+            </li>
+            <li>
+                The purpose of these plans is to tell the computer what action you would take under each
+                situation that you could possibly face.
+            </li>
+            <li>
+                The computer will then use these plans to determine the outcome of a round.
+            </li>
+        </ul>
+
+        <p>
             Before we can explain how the <b>Sender</b> and <b>Receiver</b> will choose their plans, it is important to know what happens in each
             round. We provide this information below.
         </p>
@@ -128,7 +142,7 @@
                     </li>
                     <li>
                         Next, the computer sends a message to the <b>Receiver</b> on behalf of the <b>Sender</b>. The message can be either
-                        “the ball is red” or “the ball is blue”. The computer determines which message to send according to the
+                        “<span class="red">the ball is red</span>” or “<span class="blue">the ball is blue</span>”. The computer determines which message to send according to the
                         instructions provided by the <b>Sender’s</b> <i>Communication Plan</i>.
                     </li>
                     <li>
@@ -170,7 +184,7 @@
 
         <p>
             The purpose of the <i>Communication Plan</i> is to instruct the computer on how to choose which message to send depending on
-            which ball is drawn. The computer will randomly pick one of two messages: “the ball is red” and “the ball is blue”. The
+            which ball is drawn. The computer will randomly pick one of two messages: “<span class="red">the ball is red</span>” and “<span class="blue">the ball is blue</span>”. The
             <b>Sender</b> needs to tell the computer the probability with which the computer should pick either message.
         </p>
 
@@ -206,16 +220,16 @@
         </p>
 
         <p>
-            <u>Example 1:</u> Suppose that the <b>Sender</b> tells the computer to send the message “<span class="red">the ball is red</span>” with a probability of 80% if a red
-            ball is drawn and with a probability of 10% if a blue ball is drawn. Then, if a red ball gets drawn, the message “<span class="red">the ball is red</span>”
-            is very likely to appear. However, if a blue ball gets drawn, the message “<span class="blue">the ball is blue</span>” is very likely to appear (because the
+            <u>Example 1:</u> Suppose that the <b>Sender</b> tells the computer to send the message “<span class="red">the ball is red</span>” with a probability of 80% if a <span class="red">red</span>
+            ball is drawn and with a probability of 10% if a <span class="blue">blue</span> ball is drawn. Then, if a <span class="red">red</span> ball gets drawn, the message “<span class="red">the ball is red</span>”
+            is very likely to appear. However, if a <span class="blue">blue</span> ball gets drawn, the message “<span class="blue">the ball is blue</span>” is very likely to appear (because the
             probability for the message “<span class="red">the ball is red</span>” would be just 10 percent).
         </p>
 
         <p>
-            <u>Example 2:</u> Suppose that the <b>Sender</b> tells the computer to send the message “<span class="red">the ball is red</span>” with a probability of 80% if a red
-            ball is drawn and with a probability of 85% if a blue ball is drawn. Then the message “<span class="red">the ball is red</span>” is very likely to appear
-            regardless of whether a red ball is drawn or a blue ball is drawn.
+            <u>Example 2:</u> Suppose that the <b>Sender</b> tells the computer to send the message “<span class="red">the ball is red</span>” with a probability of 80% if a <span class="red">red</span>
+            ball is drawn and with a probability of 85% if a <span class="blue">blue</span> ball is drawn. Then the message “<span class="red">the ball is red</span>” is very likely to appear
+            regardless of whether a <span class="red">red</span> ball is drawn or a <span class="blue">blue</span> ball is drawn.
         </p>
 
         <br>
@@ -235,16 +249,27 @@
 
         <p>
             Before the <b>Receiver</b> chooses their <i>Guessing Plan</i>, they observe the <b>Sender’s</b> <i>Communication Plan</i>. That is, they observe the
-            probability that the message will say “the ball is red” when the ball is in fact red, and the probability that the message will say
-            “the ball is blue” when the ball is in fact blue. Note that this can help the <b>Receiver</b> infer the likelihood that the message is
+            probability that the message will say “<span class="red">the ball is red</span>” when the ball is in fact <span class="red">red</span>, and the probability that the message will say
+            “<span class="blue">the ball is blue</span>” when the ball is in fact <span class="blue">blue</span>. Note that this can help the <b>Receiver</b> infer the likelihood that the message is
             true.
         </p>
 
         <p>
-            The <b>Receiver</b> also knows about the message-flagging device and how it flags messages. Specifically, that if the message is false,
-            then there is a {{flagged}}% chance that it will get flagged and a {{unflagged}}% chance that it will remain unflagged. (So, if a message is
-            flagged, then it must definitely be false. However, if a message is unflagged, then it could be true or false.)
+            The <b>Receiver</b> also knows about the message-flagging device and that it flags messages 
+            according to the following criteria.
         </p>
+        <ul>
+            <li>
+                If the message is false, then there is a {{flagged}}% chance that it will get flagged and a {{unflagged}}% chance that it will remain unflagged.
+            </li>
+            <li>
+                If the message is true, then there is a 100% chance that it will remain unflagged.
+            </li>
+            <li>
+                So, a message that is flagged must definitely be false. But a message that is not flagged 
+                could be true or false.
+            </li>
+        </ul>
 
         <p>
             The <b>Receiver</b> needs to tell the computer how to guess the color of the ball for the following possible situations:
@@ -271,7 +296,7 @@
 
         <br>
         <p class="half center">
-            <b>Next:</b> We will explain how the computer implements a single round, including how the message-flagging device decides whether or not to flag a message. 
+            <b>Next:</b> We will explain how the computer implements a single round.
         </p>
         <p class="half center">
             You will be able to come back to this screen if you wish to read it again.
@@ -301,7 +326,7 @@
                 Based on the color of the ball drawn and the <i>Communication Plan</i> chosen by the <b>Sender</b>, the computer randomly
                 chooses a message. For example, if a blue ball is drawn in the first step and the <b>Sender’s</b> <i>Communication Plan</i> instructs
                 the computer to send the message “<span class="red">the ball is red</span>” with a probability of 40% when a blue ball is drawn, then there is a
-                40% chance that the computer will choose the message “the ball is red” and a 60% chance that the computer will
+                40% chance that the computer will choose the message “<span class="red">the ball is red</span>” and a 60% chance that the computer will
                 choose the message “<span class="blue">the ball is blue</span>”.
             </li>
             <li>
@@ -311,49 +336,73 @@
                 chance that it does not get flagged, but there is a {{flagged}}% chance that it gets flagged. Therefore, a message that gets
                 flagged can only mean one thing – that it is false. However, a message that does not get flagged could potentially be
                 true or false.
+
+                <!-- ============= -->
+
+                After a message is chosen, it goes through a <b>message-flagging</b> device. This device 
+                either flags the message or lets the message remain unflagged, depending on whether 
+                the message is true or false. Specifically:
+
+                    <ul>
+                        <li>
+                            If the message is true (i.e., same as the color of the ball) then it never gets flagged.
+                        </li>
+                        <li>
+                            If the message is false, then there is a {{flagged}}% chance that it gets flagged, and a 
+                            {{unflagged}}% chance that it does not get flagged.
+                        </li>
+                        <li>
+                            Therefore, a message that gets flagged can only mean one thing, that it is false.
+                        </li>
+                        <li>
+                            A message that does not get flagged could potentially be true or false.
+                        </li>
+                    </ul>
             </li>
             <li>
                 Based on the message chosen in step 2 and whether the message got flagged in step 3, the computer enters a guess on
                 the <b>Receiver’s</b> behalf about the color of the ball. The computer enters this guess based on the instructions provided
                 by the <b>Receiver’s</b> <i>Guessing Plan</i>. For example, if the computer sends the message “<span class="red">the ball is red</span>” and the message-flagging 
-                device does not flag it, and the <b>Receiver’s</b> <i>Guessing Plan</i> instructs the computer to guess RED when the
-                message is “<span class="red">the ball is red</span>” and this message is not flagged, then the computer will enter the guess RED.
+                device does not flag it, and the <b>Receiver’s</b> <i>Guessing Plan</i> instructs the computer to guess <span class="red">RED</span> when the
+                message is “<span class="red">the ball is red</span>” and it is not flagged, then the computer will enter the guess <span class="red">RED</span>.
             </li>
             <li>
                 The computer determines the earnings of the <b>Sender</b> and <b>Receiver</b>. The Sender’s earnings depend on whether or
-                not the <b>Receiver’s</b> guess is RED, while the <b>Receiver’s</b> earnings depend on whether or not the <b>Receiver’s</b> guess is
+                not the <b>Receiver’s</b> guess is <span class="red">RED</span>, while the <b>Receiver’s</b> earnings depend on whether or not the <b>Receiver’s</b> guess is
                 correct. More precisely, the <b>Sender’s</b> and <b>Receiver’s</b> earnings are determined as follows.
                 <br>
-                <br>
-                <b>
-                    Sender’s earnings:
-                </b>
-                <ul>
-                    <li>
-                        If the <b>Receiver’s</b> guess is RED, then regardless of which color ball is drawn, the <b>Sender</b> earns $2.
-                    </li>
-                    <li>
-                        If the <b>Receiver’s</b> guess is BLUE, then regardless of which color ball is drawn, the <b>Sender</b> earns $0.
-                    </li>
-                </ul>
-        
-                <b>
-                    Receiver’s earnings:
-                </b>
-                <ul>
-                    <li>
-                        If a red ball is drawn AND the <b>Receiver’s</b> guess is RED (correct), then the <b>Receiver</b> earns $2.
-                    </li>
-                    <li>
-                        If a red ball is drawn AND the <b>Receiver’s</b> guess is BLUE (incorrect), then the <b>Receiver</b> earns $0.
-                    </li>
-                    <li>
-                        If a blue ball is drawn AND the <b>Receiver’s</b> guess is BLUE (correct), then the <b>Receiver</b> earns $2.
-                    </li>
-                    <li>
-                        If a blue ball is drawn AND the <b>Receiver’s</b> guess is RED (incorrect), then the <b>Receiver</b> earns $0.
-                    </li>
-                </ul>
+                <div style="margin-left: 13px;">
+                    <b>
+                        Sender’s earnings:
+                    </b>
+                    <ul>
+                        <li>
+                            If the <b>Receiver’s</b> guess is <span class="red">RED</span>, then regardless of which color ball is drawn, the <b>Sender</b> earns $2.
+                        </li>
+                        <li>
+                            If the <b>Receiver’s</b> guess is <span class="blue">BLUE</span>, then regardless of which color ball is drawn, the <b>Sender</b> earns $0.
+                        </li>
+                    </ul>
+            
+                    <b>
+                        Receiver’s earnings:
+                    </b>
+                    <ul>
+                        <li>
+                            If a <span class="red">red</span> ball is drawn AND the <b>Receiver’s</b> guess is <span class="red">RED</span> (correct), then the <b>Receiver</b> earns $2.
+                        </li>
+                        <li>
+                            If a <span class="red">red</span> ball is drawn AND the <b>Receiver’s</b> guess is <span class="blue">BLUE</span> (incorrect), then the <b>Receiver</b> earns $0.
+                        </li>
+                        <li>
+                            If a <span class="blue">blue</span> ball is drawn AND the <b>Receiver’s</b> guess is <span class="blue">BLUE</span> (correct), then the <b>Receiver</b> earns $2.
+                        </li>
+                        <li>
+                            If a <span class="blue">blue</span> ball is drawn AND the <b>Receiver’s</b> guess is <span class="red">RED</span> (incorrect), then the <b>Receiver</b> earns $0.
+                        </li>
+                    </ul>
+                </div>
+
             </li>
         </ol>
 
@@ -436,9 +485,9 @@
 
         <label class="col-form-label" for="id_q4a">
             <b>Question 4:</b> Suppose that the following events occur in a round.<br>
-            <ol class="normalMargin" style="margin-bottom: -5px;">
+            <ol class="normalMargin" style="margin-bottom: -5px; margin-left: 12px;">
                 <li>
-                    <i>A <span class='red'>blue</span> ball is drawn.</i>
+                    <i>A <span class='red'>red</span> ball is drawn.</i>
                 </li>
                 <li>
                     <i>The message sent to the <b>Receiver</b> is: “<span class='red'>The ball is red</span>”</i>
@@ -459,7 +508,11 @@
             <b>Sender's</b> earnings =
             </label>
             <div class="controls inlineSelect">
-                <select class="form-select" id="id_q4a" name="q4a" required=""><option value="">--------</option><option selected="" value="$0">$0</option><option value="$2">$2</option></select>
+                <select class="form-select" id="id_q4a" name="q4a" required="">
+                    <option selected="" value="">--------</option>
+                    <option value="$0">$0</option>
+                    <option value="$2">$2</option>
+                </select>
             </div>
         </div>
 
@@ -468,7 +521,11 @@
             <b>Receiver's</b> earnings =
             </label>
             <div class="controls inlineSelect">
-                <select class="form-select" id="id_q4b" name="q4b" required=""><option value="">--------</option><option value="$0">$0</option><option selected="" value="$2">$2</option></select>
+                <select class="form-select" id="id_q4b" name="q4b" required="">
+                    <option selected="" value="">--------</option>
+                    <option value="$0">$0</option>
+                    <option value="$2">$2</option>
+                </select>
             </div>
         </div>
 

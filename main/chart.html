@@ -3,8 +3,8 @@
     /* g .y line {
         stroke-dasharray: 1 1;
     } */
-    g path {
-        display: none;
+    g .x path {
+        transform: translateX(30px);
     }
     .y text, .x text {
         font-size: 16px;
@@ -29,9 +29,9 @@
 <script>
     
     // set the dimensions and margins of the graph
-    var margin = {top: 30, right: 0, bottom: 100, left: 50},
+    var margin = {top: 30, right: 0, bottom: 50, left: 50},
         width = 460 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
+        height = 350 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
     var svg = d3.select("#my_dataviz")

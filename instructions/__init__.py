@@ -23,15 +23,14 @@ class Group(BaseGroup):
 class Player(BasePlayer):
     quiz_attempts = models.IntegerField(initial=0)
     q1 = models.StringField(
-            widget=widgets.RadioSelect,
             label="<b>Question 1:</b> What is the probability that a blue ball will be drawn?",
-            choices=["(a) 0%", "(b) 25%", "(c) 33%", "(d) 50%", "(e) 67%", "(f) 75%", "(g) 100%"]
+            choices=["0%", "25%", "33%", "50%", "67%", "75%", "100%"]
         )
     q2 = models.StringField(
         widget=widgets.RadioSelect,
-        label="""<b>Question 2:</b> Suppose that the <b>Sender</b> chooses the following <i>Communication Plan</i>.<br>
+        label="""<b>Question 2:</b> Suppose that the <b>Sender</b> chooses the following <i>Communication Plan</i>.<br><br>
         &emsp;&emsp;<i>If a red ball is drawn, then send the message “the ball is red” with a probability of 90%</i><br>
-        &emsp;&emsp;<i>If a blue ball is drawn, then send the message “the ball is red” with a probability of 10%</i><br>
+        &emsp;&emsp;<i>If a blue ball is drawn, then send the message “the ball is red” with a probability of 10%</i><br><br>
         Then, regardless of the color of the ball drawn,""",
         choices=[
             "(a) The message “the ball is red” will be sent with a probability of 90%",
@@ -44,9 +43,9 @@ class Player(BasePlayer):
 
     q3 = models.StringField(
         widget=widgets.RadioSelect,
-        label="""<b>Question 3:</b> Suppose that the <b>Sender</b> chooses the following <i>Communication Plan</i>. <br>
+        label="""<b>Question 3:</b> Suppose that the <b>Sender</b> chooses the following <i>Communication Plan</i>. <br><br>
         &emsp;&emsp;<i>If a red ball is drawn, then send the message “the ball is red” with a probability of <u>100%</u></i><br>
-        &emsp;&emsp;<i>If a blue ball is drawn, then send the message “the ball is red” with a probability of <u>0%</u></i><br>
+        &emsp;&emsp;<i>If a blue ball is drawn, then send the message “the ball is red” with a probability of <u>0%</u></i><br><br>
         Then, regardless of the color of the ball drawn,""",
         choices=[
             "(a) The message “the ball is red” will be sent",
@@ -103,7 +102,7 @@ class Player(BasePlayer):
             <i>The message sent to the <b>Receiver</b> is: “<span class='blue'>The ball is blue</span>”</i>
         </li>
         <li>
-            <i>The message is &#9873;flagged&#9873;</i>
+            <i>The message is <span class="red" style="background: pink">&#9873;flagged&#9873;</span></i>
         </li>
         <li>
             <i>The <b>Receiver’s</b> guess is <span class='red'>RED</span>.</i>
@@ -129,7 +128,7 @@ class Instructions(Page):
         player.quiz_attempts += 1
 
         solutions = dict(
-            q1="(e) 67%",
+            q1="67%",
             q2="(c) The message will be true with a probability of 90%",
             q3="(e) Both c and d",
             q4a="$0",
