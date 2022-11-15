@@ -1,0 +1,190 @@
+<script src="https://d3js.org/d3.v4.js"></script>
+<style>
+    /* g .y line {
+        stroke-dasharray: 1 1;
+    } */
+    g .x path {
+        transform: translateX(30px);
+    }
+    .y text, .x text {
+        font-size: 16px;
+    }
+    .x .tick line {
+        display: none;
+    }
+    .legend {
+        fill: white;
+        font-size: 16px;
+    }
+    .none {
+        display: none;
+    }
+    svg {
+        width: 400px;
+    }
+</style>
+
+<div id="my_dataviz"></div>
+
+<script>
+    
+    // set the dimensions and margins of the graph
+    var margin = {top: 30, right: 0, bottom: 50, left: 50},
+        width = 460 - margin.left - margin.right,
+        height = 350 - margin.top - margin.bottom;
+
+    // append the svg object to the body of the page
+    var svg = d3.select("#my_dataviz")
+        .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+            .attr("transform",
+                "translate(" + margin.left + "," + margin.top + ")");
+
+    let data = [
+            {
+                group: "If Red ball is drawn", 
+                'Send Red': {{group.if_red_send_red}}, 
+                'Send Blue': {{group.if_red_send_blue}}, 
+                'label': "Ball is Blue",
+            },
+            {
+                group: "If Blue ball is drawn", 
+                'Send Red': {{group.if_blue_send_red}}, 
+                'Send Blue': {{group.if_blue_send_blue}}, 
+                'label': "Ball is Red",
+            },
+        ]
+
+    let subgroups = ['Send Red', 'Send Blue']
+
+    let groups = ["If Red ball is drawn", "If Blue ball is drawn"]
+
+    // Add X axis
+    var x = d3.scaleBand()
+        .domain(groups)
+        .range([0, width])
+        .padding([0.2])
+
+    svg.append("g")
+        .attr("class", "x")
+        .attr("transform", "translate(-30," + height + ")")
+        .call(d3.axisBottom(x));
+
+    // Add Y axis
+    var y = d3.scaleLinear()
+        .domain([0, 100])
+        .range([ height, 0 ]);
+
+    svg.append("g")
+        .call(d3.axisLeft(y).tickSize(0))
+        .attr("class", "y")
+
+    // color palette = one color per subgroup
+    var color = d3.scaleOrdinal()
+        .domain(subgroups)
+        .range(['red','blue'])
+
+    // Normalize the data -> sum of each group must be 100!
+    dataNormalized = []
+    data.forEach(function(d){
+        // Compute the total
+        tot = 0
+
+        for (i in subgroups){ name=subgroups[i] ; tot += +d[name] }
+        // Now normalize
+        for (i in subgroups){ name=subgroups[i] ; d[name] = d[name] / tot * 100}
+
+    })
+
+    //stack the data? --> stack per subgroup
+    var stackedData = d3.stack()
+        .keys(subgroups)
+        (data)
+
+    // Show the bars
+    svg.append("g")
+    .selectAll("g")
+    // Enter in the stack data = loop key per key = group per group
+    .data(stackedData)
+    .enter().append("g")
+        .attr("fill", function(d) { return color(d.key); })
+        .selectAll("rect")
+        // enter a second time = loop subgroup per subgroup to add all rectangles
+        .data(function(d) { return d; })
+        .enter().append("rect")
+        .attr("x", function(d) { return x(d.data.group) - 30; })
+        .attr("y", function(d) { return y(d[1]); })
+        .attr("height", function(d) { return y(d[0]) - y(d[1]); })
+        .attr("width",x.bandwidth())
+
+    function hideSmall(d) {
+        if (d[1] - d[0] <= 12) {
+            return "none"
+        } else {
+            return "legend"
+        }
+    }
+
+    function midPoint(d) {
+        return d[1] - d[0] + 1
+    }
+
+    function legendLabel(d) {
+        if (d[0] == 0 & d[1] != 100) {
+            return 'Send "Ball is Red"'
+        } else {
+            return 'Send "Ball is Blue"'
+        }
+    }
+        
+    svg.selectAll("g.barLabels")
+        // Enter in the stack data = loop key per key = group per group
+        .data(stackedData)
+        .enter().append("g")
+            .selectAll("text")
+            // enter a second time = loop subgroup per subgroup to add all rectangles
+            .data(function(d) { return d; })
+            .enter().append("text")
+            .attr("class", "legend")
+            .attr("x", function(d) { return x(d.data.group) - 20; })
+            .attr("y", function(d) { return y(d[1]) + midPoint(d)})
+            .attr("class", function(d) {return hideSmall(d)})
+            .text(function(d, i) { return legendLabel(d)})
+
+    svg.selectAll("g.barLabels")
+        // Enter in the stack data = loop key per key = group per group
+        .data(stackedData)
+        .enter().append("g")
+            .selectAll("text")
+            // enter a second time = loop subgroup per subgroup to add all rectangles
+            .data(function(d) { return d; })
+            .enter().append("text")
+            .attr("class", "legend")
+            .attr("x", function(d) { return x(d.data.group) + 20; })
+            .attr("y", function(d) { return y(d[1]) + midPoint(d) + 16})
+            .attr("class", function(d) {return hideSmall(d)})
+            .text(function(d) {return '(' + Math.round(d[1] - d[0])+ '%)' })
+
+    svg.append("text")
+        .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+        .attr("transform", "translate("+ (-30) +","+(height/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
+        .text("Probability");
+
+    let legendKeys = ["Send \"The ball is Red\"", "Send \"The ball is Blue\""]
+    let size = 20
+
+    let probabilityLabels = ["(Happens with prob 33%)", "(Happens with prob 67%)"]
+
+    svg.selectAll("mylabels")
+        .data(probabilityLabels)
+        .enter()
+        .append("text")
+            .attr("x", function(d,i){ return 15  + i*(size+170) })
+            .attr("y", function(d,i){ return 305})
+            .text(function(d){ return d})
+            .attr("text-anchor", "left")
+            .attr("font-size", "12px")
+            .style("alignment-baseline", "middle")
+</script>

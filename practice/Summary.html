@@ -1,0 +1,113 @@
+{{ block title }}
+    Results of Round {{player.round_number}}
+{{ endblock }}
+
+{{ block content }}
+
+<style>
+    .center {
+        text-align: center;
+    }
+    .flagged {
+        color: red;
+        font-weight: bolder;
+        background: pink !important;
+    }
+    .notFlagged {
+        color: green;
+        font-weight: bolder;
+        background: rgb(133, 250, 133) !important;
+    }
+    .red, .Red {
+        color: red;
+    }
+    .blue, .Blue {
+        color: blue;
+    }
+    table {
+        font-size: 20px;
+    }
+</style>
+
+<table class="table table-dark">
+    <thead>
+        <tr>
+            <th scope="col">Ball Color</th>
+            <th scope="col">Message Sent</th>
+            {% if form_elements == 4 %}
+            <th scope="col">Flagged</th>
+            {% endif %}
+            <th scope="col">Guess</th>
+            <th scope="col">
+                Sender Payoff
+            </th>
+            <th scope="col">Receiver Payoff</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{group.ball_color}}</td>
+            <td>{{group.message_sent}}</td>
+            {% if form_elements == 4 %}
+                {% if group.field_maybe_none('message_flagged') == None %}
+                <td>
+                    N/A (message was true)
+                </td>
+                {% elif group.message_flagged %}
+                <td class="flagged">
+                    Flagged
+                </td>
+                {% else %}
+                <td class="notFlagged">
+                    Not Flagged
+                </td>
+                {% endif %}
+            {% endif %}
+            <td>{{group.guess}}</td>
+            <td>{{player.group.sender_payoff}}</td>
+            <td id="payoff">{{player.group.receiver_payoff}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<br>
+<hr>
+
+<div style="display: flex; justify-content: space-between;">
+    <div style="border-right: 1px solid black; padding-right: 10px; margin-right: 5px;">
+        <div style="font-size: 20px; text-align: center;">{{chart_title}}</div>
+        {{ include C.CHART_TEMPLATE }}
+    </div>
+    <div>
+        <p style="font-size: 20px; text-align: center;">Receiver's Guessing Plan</p>
+        <div>
+            <p>If the message is "<span class="red">The ball is Red</span>" {% if form_elements == 4 %}and it is not flagged{% endif %}, then guess <b><span class="{{group.if_red_guess}}">{{group.if_red_guess}}</span></b></p>
+            {% if group.field_maybe_none('if_red_flagged_guess')%}
+                <p>If the message is "<span class="red">The ball is Red</span>" and it is <span class="flagged">&#9873; flagged &#9873;</span>, then guess <b><span class="{{group.if_red_flagged_guess}}">{{group.if_red_flagged_guess}}</span></b></p>
+            {% endif %}
+            <p>If the message is "<span class="blue">The ball is Blue</span>" and it is not flagged, then guess <b><span class="{{group.if_blue_guess}}">{{group.if_blue_guess}}</span></b></p>
+            {% if group.field_maybe_none('if_blue_flagged_guess')%}
+                <p>If the message is "<span class="blue">The ball is Blue</span>" {% if form_elements == 4 %}and it is <span class="flagged">&#9873; flagged &#9873;</span>{% endif %}, then guess <b><span class="{{group.if_blue_flagged_guess}}">{{group.if_blue_flagged_guess}}</span></b></p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div style="text-align: center">
+    {{ next_button }}
+</div>
+
+<script>
+
+    // let index = 0
+    // let colors = ["", "grey"]
+    // setInterval(()=>{
+    //     $("#payoff").css("background-color", colors[index%2])
+    //     index+=1
+    // }, 250)
+
+</script>
+
+{{ endblock }}
+
+

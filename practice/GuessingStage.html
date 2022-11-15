@@ -1,0 +1,219 @@
+{{ block title }}
+    <p>
+        Practice Round {{player.round_number}} of {{C.NUM_ROUNDS}}
+    </p>
+    <p style="font-size: 16px;">
+        Now you will act as the Receiver
+    </p>
+{{ endblock }}
+
+{{ block content }}
+
+<style>
+    h2, h3, h4 {
+        text-align: center;
+    }
+    button {
+        margin-bottom: 1rem!important;
+        /* margin-left: 20px; */
+    }
+    .guessPlan {
+        padding-left: 30px;
+        border-left: 1px solid black;
+        margin-left: 30px;
+    }
+    div {
+        font-size: 17px;
+    }
+    .trow {
+        display: flex;
+        justify-content: space-between;
+    }
+    .red {
+        color: red;
+    }
+    .blue {
+        color: blue;
+    }
+    .flagged {
+        background: pink;
+        color: red;
+    }
+</style>
+    <br>
+    <div style="display: flex">
+        <div style="flex-grow:2">
+            <div style="text-align: center;">{{chart_title}}</div>
+            <!-- Create a div where the graph will take place -->
+            {{ include C.CHART_TEMPLATE }}
+        </div>
+
+        <br>
+        
+        <div class="guessPlan" >
+            <h4>Below is the Receiver's Guessing Plan</h4>
+            <br>
+            <div>For each of the following situations, tell the computer how to guess the color of the ball.</div>
+            <br>
+
+            <div class="trow">
+                <div>
+                    If the message is:
+                </div>
+                {% if form_elements > 2 %}
+                <div>
+                    And this message:
+                </div>
+                {% endif %}
+                <div>
+                    Then guess:
+                </div>
+            </div>
+            <hr>
+            <div class="trow">
+                <div>
+                    "<span class="red">The ball is Red</span>"
+                </div>
+                {% if form_elements > 2 %}
+                <div>
+                    Is not flagged
+                </div>
+                {% endif %}
+                <div>
+                    <button class="btn btn-outline-danger" type="button" id="if_red_send_red" onclick="select(this.id)">RED</button>
+                    <button class="btn btn-outline-primary" type="button" id="if_red_send_blue" onclick="select(this.id)">BLUE</button>
+                </div>
+            </div>
+            <hr>
+            {% if form_elements == 4 %}
+            <div class="trow">
+                <div>
+                    "<span class="red">The ball is Red</span>"
+                </div>
+                <div>
+                    <span class="flagged">&#9873; Is flagged &#9873;</span>
+                </div>
+                <div>
+                    <button class="btn btn-outline-danger" type="button" id="if_red_flagged_send_red" onclick="select(this.id)">RED</button>
+                    <button class="btn btn-outline-primary" type="button" id="if_red_flagged_send_blue" onclick="select(this.id)">BLUE</button>
+                </div>
+            </div>
+            <hr>
+            {% endif %}
+            <div class="trow">
+                <div>
+                    "<span class="blue">The ball is Blue</span>"
+                </div>
+                {% if form_elements > 2 %}
+                <div>
+                    Is not flagged
+                </div>
+                {% endif %}
+                <div>
+                    <button class="btn btn-outline-danger" type="button" id="if_blue_send_red" onclick="select(this.id)">RED</button>
+                    <button class="btn btn-outline-primary" type="button" id="if_blue_send_blue" onclick="select(this.id)">BLUE</button>
+                </div>
+            </div>
+            {% if form_elements == 4 %}
+            <hr>
+            <div class="trow">
+                <div>
+                    "<span class="blue">The ball is Blue</span>"
+                </div>
+                <div>
+                    <span class="flagged">&#9873; Is flagged &#9873;</span>
+                </div>
+                <div>
+                    <button class="btn btn-outline-danger" type="button" id="if_blue_flagged_send_red" onclick="select(this.id)">RED</button>
+                    <button class="btn btn-outline-primary" type="button" id="if_blue_flagged_send_blue" onclick="select(this.id)">BLUE</button>
+                </div>
+            </div>
+            <br>
+            {% endif %}
+
+            
+        </div>
+
+        <div style="display: none;">
+            <input type="text" name="if_red_guess">
+            <input type="text" name="if_red_flagged_guess">
+            <input type="text" name="if_blue_guess">
+            <input type="text" name="if_blue_flagged_guess">
+        </div>
+    
+    </div>
+    <br>
+
+    <div style="text-align: center">
+        <button id="submit" class="btn btn-primary" style="display: none;">Next</button>
+    </div>
+
+    <script>
+        let completedItems = []
+
+        let probRed = {{C.PROBABILITY_RED}}
+        let probBlue = {{C.PROBABILITY_BLUE}}
+
+        let formElements = {{form_elements}}
+
+        let red = "{{C.R}}"
+        let blue = "{{C.B}}"
+
+        function select(id) {
+
+            switch(id) {
+                case "if_red_send_red":
+                    $('button#if_red_send_red').attr("class", "btn btn-danger")
+                    $('button#if_red_send_blue').attr("class", "btn btn-outline-primary")
+                    $('input[name="if_red_guess"]').val(red)
+                    break;
+                case "if_red_send_blue":
+                    $('button#if_red_send_blue').attr("class", "btn btn-primary")
+                    $('button#if_red_send_red').attr("class", "btn btn-outline-danger")
+                    $('input[name="if_red_guess"]').val(blue)
+                    break;
+                case "if_red_flagged_send_red":
+                    $('button#if_red_flagged_send_red').attr("class", "btn btn-danger")
+                    $('button#if_red_flagged_send_blue').attr("class", "btn btn-outline-primary")
+                    $('input[name="if_red_flagged_guess"]').val(red)
+                    break;
+                case "if_red_flagged_send_blue":
+                    $('button#if_red_flagged_send_blue').attr("class", "btn btn-primary")
+                    $('button#if_red_flagged_send_red').attr("class", "btn btn-outline-danger")
+                    $('input[name="if_red_flagged_guess"]').val(blue)
+                    break;
+                case "if_blue_send_red":
+                    $('button#if_blue_send_red').attr("class", "btn btn-danger")
+                    $('button#if_blue_send_blue').attr("class", "btn btn-outline-primary")
+                    $('input[name="if_blue_guess"]').val(red)
+                    break;
+                case "if_blue_send_blue":
+                    $('button#if_blue_send_blue').attr("class", "btn btn-primary")
+                    $('button#if_blue_send_red').attr("class", "btn btn-outline-danger")
+                    $('input[name="if_blue_guess"]').val(blue)
+                    break;
+                case "if_blue_flagged_send_red":
+                    $('button#if_blue_flagged_send_red').attr("class", "btn btn-danger")
+                    $('button#if_blue_flagged_send_blue').attr("class", "btn btn-outline-primary")
+                    $('input[name="if_blue_flagged_guess"]').val(red)
+                    break;
+                case "if_blue_flagged_send_blue":
+                    $('button#if_blue_flagged_send_blue').attr("class", "btn btn-primary")
+                    $('button#if_blue_flagged_send_red').attr("class", "btn btn-outline-danger")
+                    $('input[name="if_blue_flagged_guess"]').val(blue)
+                    break;
+                default:
+                    // code block
+            }
+
+            if ($('.btn-danger, .btn-primary').length == formElements + 1) {
+                $("#submit").show();
+            }
+
+        }
+
+    </script>
+
+{{ endblock }}
+
+

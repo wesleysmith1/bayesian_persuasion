@@ -1,0 +1,103 @@
+{{ block title }}
+{{ endblock }}
+
+{{ block content }}
+
+<style>
+    .center {
+        text-align: center;
+    }
+    .arrow {
+        font-size: 50px;
+        text-align: center;
+    }
+    .flagged {
+        color: red;
+        font-weight: bolder;
+        background: pink !important;
+    }
+    .notFlagged {
+        color: green;
+        font-weight: bolder;
+        background: rgb(133, 250, 133) !important;
+    }
+    div {
+        font-size: 20px;
+    }
+    .grey {
+        color: darkgrey;
+    }
+    .red, .Red {
+        color: red;
+    }
+    .blue, .Blue {
+        color: blue;
+    }
+    .timer {
+        width: 20px;
+    }
+</style>
+
+<div id="loading"></div>
+
+<button id="submit" style="display: none;"></button>
+
+{{ include C.LOADING_TEMPLATE}}
+
+<br>
+<br>
+
+<div id="timer" class="center">Going to next page in <span id="timerNum">6</span></div>
+
+<script>
+    let stages = {{C.LOADING_STAGES}}
+    let loading = {{loading}}
+    let final = {{final}}
+    let interval = {{C.LOADING_INTERVAL}}
+
+    $("#timer").hide()
+
+    function startTimer() {
+        let countdown = 6
+        $("#timer").show()
+        setInterval(function() {
+            countdown -= 1;
+            $('#timerNum').html(countdown)
+            if (countdown == 0) {
+                // next page
+                $("#submit").trigger('click')
+            }
+
+        }, 1000)
+    }
+
+    $("#loading").append("<div style='display: flex; justify-content: center;'><div id='loading0' class='center grey'>" + loading[0] + "&nbsp;</div><div class='loader'></div></div>")
+
+    let index = 1
+    var timer = setInterval(function() {
+
+        let newMessage = final[index-1]
+
+        $("#loading"+(index-1)).html(newMessage).removeClass("grey")
+
+        $(".loader").remove()
+
+        if (index != loading.length)
+            $("#loading").append("<div class='arrow'>&#8595;</div>")
+            
+        if (index == loading.length) {
+            // setTimeout(function() {$("#submit").trigger('click')}, interval)
+            startTimer()
+            clearInterval(timer)
+            return;
+        }
+
+        $("#loading").append("<div style='display: flex; justify-content: center;'><div id='loading" + index + "' class='center grey'>" + loading[index] + "&nbsp;</div><div class='loader'></div></div>")
+
+        index++
+    }, interval)
+</script>
+
+{{ endblock }}
+
+

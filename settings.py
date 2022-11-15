@@ -3,6 +3,15 @@ from os import environ
 
 SESSION_CONFIGS = [
     dict(
+        display_name="full .75", name="full_75", app_sequence=['instructions', 'practice', 'main', 'payment'], num_demo_participants=2, flagged=.75,
+    ),
+    dict(
+        display_name="full .5", name="full_5", app_sequence=['instructions', 'practice', 'main', 'payment'], num_demo_participants=2, flagged=.5,
+    ),
+    dict(
+        display_name="full .25", name="full_25", app_sequence=['instructions', 'practice', 'main', 'payment'], num_demo_participants=2, flagged=.25,
+    ),
+    dict(
         display_name="main .5", name="main_5", app_sequence=['main', 'payment'], num_demo_participants=2, flagged=.5,
     ),
     dict(
@@ -19,6 +28,9 @@ SESSION_CONFIGS = [
     ),
     dict(
         display_name="instructions", name="instructions", app_sequence=['instructions'], num_demo_participants=1, flagged=.5
+    ),
+    dict(
+        display_name="practice", name="practice", app_sequence=['practice'], num_demo_participants=1, flagged=.5
     )
 ]
 

@@ -1,0 +1,288 @@
+{{ block title }}
+    <p style="text-align: center;">
+        Practice Round {{player.round_number}} of {{C.NUM_ROUNDS}}
+    </p>
+    <p style="text-align: center; font-size: 16px;">First you will act as the Sender.</p>
+{{ endblock }}
+{{ block content }}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/Draggable.min.js"></script>
+
+<style>
+    .trow {
+        display: flex;
+        justify-content: space-evenly;
+    }
+    .slider {
+        background: blue;
+        height: 25px;
+        width: 300px;
+        border-radius: 25px;
+        margin: auto;
+    }
+    .thumb {
+        background: grey;
+        height: 25px;
+        width: 25px;
+        border-radius: 25px;
+        position: relative;
+        bottom: 25px;
+    }
+    .left {
+        background: red;
+        border-radius: 25px;
+        height: 25px;
+    }
+    .sliderRange {
+        width: 300px;
+        display: flex;
+        justify-content: space-between;
+        margin: auto;   
+    }
+
+    input[type="number"]::-webkit-outer-spin-button, 
+    input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        background: #FFF url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAKUlEQVQYlWNgwAT/sYhhKPiPT+F/LJgEsHv37v+EMGkmkuImoh2NoQAANlcun/q4OoYAAAAASUVORK5CYII=) no-repeat center center;
+        width: 1em;
+        border-left: 1px solid #BBB;
+        opacity: 1; /* shows Spin Buttons per default (Chrome >= 39) */
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    .red {
+        color: red;
+    }
+    .blue {
+        color: blue;
+    }
+</style>
+
+<br>
+<br>
+
+<p style="text-align: center; ">This is the Sender's Communication Plan.<br>Use the slider scales below to tell the computer the probability with which each message should be sent.</P>
+    
+    <br>
+    <br>
+
+    <div style="display: flex; margin: 20px; text-align: center;">
+        <div style="flex-grow:3; display: flex;">
+            <div style="flex-grow: 1">
+                <h4>If a <span style="color: red">Red</span> ball is drawn</h4>
+                <div class="trow">
+                    <div>Send the message:</div>
+                    <div>with probability:</div>
+                </div>
+                <hr>
+                <div class="trow">
+                    <div>"<span class="red">The ball is Red</span>"</div>
+                    <input type="number" value="5" max="100" min="0" step=1 name="if_red_send_red" id="if_red_send_red">
+                </div>
+                <hr>
+                <div class="trow">
+                    <div>"<span class="blue">The ball is Blue</span>"</div>
+                    <input type="number" value="5" max="100" min="0" step=1 name="if_red_send_blue" id="if_red_send_blue">
+                </div>
+                <hr>
+                <div class="sliderRange">
+                    <div>0</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;50</div>
+                    <div>100</div>
+                </div>
+                <div id="rslider" class="slider">
+                    <div id="rleft" class="left"></div>
+                    <div id="rthumb" class="thumb"></div>
+                </div>
+            </div>
+        </div>
+        <div style="flex-grow:1"></div>
+        <div style="flex-grow:3; display: flex;">
+            <div style="flex-grow: 1">
+                <h4>If a <span style="color: blue">Blue</span> ball is drawn</h4>
+                <div class="trow">
+                    <div>Send the message:</div>
+                    <div>with probability:</div>
+                </div>
+                <hr>
+                <div class="trow">
+                    <div>"<span class="red">The ball is Red</span>"</div>
+                    <input type="number" value="5" max="100" min="0" step=1 name="if_blue_send_red" id="if_blue_send_red">
+                </div>
+                <hr>
+                <div class="trow">
+                    <div>"<span class="blue">The ball is Blue</span>"</div>
+                    <input type="number" value="5" max="100" min="0" step=1 name="if_blue_send_blue" id="if_blue_send_blue">
+                </div>
+                <hr>
+                <div class="sliderRange">
+                    <div>0</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;50</div>
+                    <div>100</div>
+                </div>
+                <div id="bslider" class="slider">
+                    <div id="bleft" class="left"></div>
+                    <div id="bthumb" class="thumb"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <br>
+
+    <div style="text-align: center;">
+        <button id="submit" class="btn btn-primary" style="display: none;">Next</button>
+    </div>
+
+    <script>
+        $(function() {
+
+            let redReceived = false;
+            let blueReceived = false;
+
+            let receivedInputs = {
+                "red": false,
+                "blue": false,
+            }
+            function displayNext() {
+                if (receivedInputs["red"] & receivedInputs["blue"]) {
+                    $("#submit").show()
+                }
+            }
+
+            // ============================================================================
+
+            class Slider {
+                constructor(sliderWidth, thumbRef, leftRef, boundsRef, redRef, blueRef, receivedKey) {
+                    this.leftRef = leftRef
+                    this.thumbRef = thumbRef 
+                    this.sliderWidth = sliderWidth
+                    this.boundsRef = boundsRef
+                    this.redRef = redRef
+                    this.blueRef = blueRef
+                    this.receivedKey = receivedKey
+                    let that = this
+                    this.draggable = Draggable.create(
+                        that.thumbRef, 
+                        {
+                            bounds: that.boundsRef, 
+                            onDrag: function() {
+                                that.updateBackground(this.x)
+                                receivedInputs[that.receivedKey] = true
+                                displayNext()
+                            },
+                            onDragEnd: function() {
+                                let x = Math.round(this.x/that.sliderWidth*100)
+                                that.set(x)
+                                
+                                $(that.redRef).val(x)
+                                $(that.blueRef).val(100 - x)
+                            }
+                        });
+                    this.set(50)
+                }
+                updateBackground(x) {
+                    document.getElementById(this.leftRef).style.width = x + 25 + "px";
+                }
+                set(x) {
+                    // convert input from 0-100 to size of scale
+                    let convertedValue = Math.round(x/100*this.sliderWidth)
+
+                    // updated left background color
+                    this.updateBackground(convertedValue)
+
+                    TweenLite.set(this.thumbRef,{x:convertedValue+"px"});
+
+                    this.draggable[0].update();
+
+                }
+            }
+
+            let redSlider = new Slider(275, '#rthumb', 'rleft', '#rslider', "#if_red_send_red", "#if_red_send_blue", "red")
+            let blueSlider = new Slider(275, '#bthumb', 'bleft', '#bslider', "#if_blue_send_red", "#if_blue_send_blue", "blue")
+            
+            // ============================================================================
+
+            function randomize() {
+                let a = Math.floor(Math.random() * 101);
+                let b = Math.floor(Math.random() * 101);
+
+                $("#if_red_send_red").val(a)
+                $("#if_red_send_blue").val(100 - a)
+                redSlider.set(a)
+
+                $("#if_blue_send_red").val(b)
+                $("#if_blue_send_blue").val(100 - b)
+                blueSlider.set(b)
+            }
+
+            randomize()
+
+            function form_sync(a, b, slider, receivedKey) {
+                $(a).change(function(){
+                    let x = $(this).val();
+
+                    if (x > 100) {
+                        $(b).val(0)
+                        $(this).val(100)
+                        x = 100
+                    } else if (x < 0) {
+                        $(b).val(100)
+                        $(this).val(0)
+                        x = 0
+                    } else {
+                        $(b).val(100 - x)
+                    }
+
+                    // there needs to be two of these
+                    // sliderFunction(x)
+                    slider.set(x)
+
+                    receivedInputs[receivedKey] = true
+                    displayNext()
+
+                });
+
+                $(b).change(function(){
+                    let x = $(this).val();
+
+                    if (x > 100) {
+                        $(a).val(0)
+                        $(this).val(100)
+                        x = 100
+                    } else if (x < 0) {
+                        $(a).val(100)
+                        $(this).val(0)
+                        x = 0
+                    } else {
+                        $(a).val(100 - x)
+                    }
+
+                    slider.set(100 - x)
+
+                    receivedInputs[receivedKey] = true
+                    displayNext()
+                });
+            }
+
+            form_sync("#if_red_send_red", "#if_red_send_blue", redSlider, "red")
+            form_sync("#if_blue_send_red", "#if_blue_send_blue", blueSlider, "blue")
+
+            $(document).ready(function() {
+                $(window).keydown(function(event){
+                    if(event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
+                    }
+                });
+            });
+
+        });
+    </script>
+
+{{ endblock }}

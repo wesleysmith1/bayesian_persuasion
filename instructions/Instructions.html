@@ -4,6 +4,9 @@
 {{ block content }}
 
 <style>
+    img {
+        border: 1px solid black;
+    }
     .hide {
         display: none;
     }
@@ -212,7 +215,7 @@
             The <b>Sender</b> will choose these probabilities using slider scales. The <b>Sender’s</b> decision screen will look something like this:
         </p>
 
-        <h1>SCREENSHOT PLACEHOLDER</h1>
+        <img src="{{ static 'global/sender.PNG' }}"/>
 
         <br>
         <p>
@@ -292,7 +295,7 @@
 
         <p>The <b>Receiver’s</b> decision screen will look something like this:</p>
 
-        <h1>SCREENSHOT PLACEHOLDER</h1>
+        <img src="{{ static 'global/receiver.PNG' }}"/>
 
         <br>
         <p class="half center">
