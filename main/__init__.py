@@ -13,7 +13,7 @@ class PostPracticeWait(WaitPage):
 class C(BaseConstants):
     NAME_IN_URL = 'main'
     PLAYERS_PER_GROUP = 2
-    NUM_ROUNDS = 5
+    NUM_ROUNDS = 20
 
     SENDER_ROLE='sender'
     RECEIVER_ROLE='receiver'
