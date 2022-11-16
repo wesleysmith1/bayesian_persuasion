@@ -5,9 +5,6 @@ import random
 doc = """
 Your app description
 """
-
-class PostPracticeWait(WaitPage):
-    wait_for_all_groups = True
     
 
 class C(BaseConstants):
@@ -212,4 +209,4 @@ class LoadingPage(Page):
                     final=b
                 )
 
-page_sequence = [PostPracticeWait, CommunicationStage, Wait1, GuessingStage, Wait2, LoadingPage, Summary]
+page_sequence = [CommunicationStage, Wait1, GuessingStage, Wait2, LoadingPage, Summary]

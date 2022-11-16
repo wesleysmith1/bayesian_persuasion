@@ -36,4 +36,8 @@ class Payment2(Page):
         return dict(participation_fee=player.session.config['participation_fee'],)
 
 
-page_sequence = [Payment1, Payment2]
+class Final(Page):
+    pass
+
+
+page_sequence = [Payment1, Payment2, Final]
