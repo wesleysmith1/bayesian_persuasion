@@ -22,6 +22,7 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     name = models.StringField()
+    total_payoff = models.CurrencyField()
 
 
 # PAGES
@@ -33,6 +34,7 @@ class Payment1(Page):
 class Payment2(Page):
     @staticmethod
     def vars_for_template(player: Player):
+        player.total_payoff = player.participant.payoff_plus_participation_fee()
         return dict(participation_fee=player.session.config['participation_fee'],)
 
 
