@@ -108,14 +108,14 @@ class Wait2(WaitPage):
 
         if group.message_sent == C.R:
             if group.field_maybe_none('message_flagged'):
-                group.guess = group.if_red_guess
-            else:
                 group.guess = group.if_red_flagged_guess
+            else:
+                group.guess = group.if_red_guess
         else:
             if group.field_maybe_none('message_flagged'):
-                group.guess = group.if_blue_guess
-            else:
                 group.guess = group.if_blue_flagged_guess
+            else:
+                group.guess = group.if_blue_guess
 
         sender = group.get_player_by_id(1)
         receiver = group.get_player_by_id(2)

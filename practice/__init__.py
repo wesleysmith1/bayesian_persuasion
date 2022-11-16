@@ -112,14 +112,14 @@ class GuessingStage(Page):
 
         if player.message_sent == C.R:
             if player.field_maybe_none('message_flagged'):
-                player.guess = player.if_red_guess
-            else:
                 player.guess = player.if_red_flagged_guess
+            else:
+                player.guess = player.if_red_guess
         else:
             if player.field_maybe_none('message_flagged'):
-                player.guess = player.if_blue_guess
-            else:
                 player.guess = player.if_blue_flagged_guess
+            else:
+                player.guess = player.if_blue_guess
 
         # payoffs
         if player.guess == C.R:

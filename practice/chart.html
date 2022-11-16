@@ -131,8 +131,10 @@
         return d[1] - d[0] + 1
     }
 
-    function legendLabel(d) {
-        if (d[0] == 0 & d[1] != 100) {
+    function legendLabel(i, d) {
+        if (d[0] == 0 & d.data['Send Red'] == 0) {
+            return 'Send "Ball is Blue"'
+        } else if (d[0] == 0 & d[1] > 0) {
             return 'Send "Ball is Red"'
         } else {
             return 'Send "Ball is Blue"'
@@ -151,7 +153,7 @@
             .attr("x", function(d) { return x(d.data.group) - 20; })
             .attr("y", function(d) { return y(d[1]) + midPoint(d)})
             .attr("class", function(d) {return hideSmall(d)})
-            .text(function(d, i) { return legendLabel(d)})
+            .text(function(d, i) { return legendLabel(i, d)})
 
     svg.selectAll("g.barLabels")
         // Enter in the stack data = loop key per key = group per group
