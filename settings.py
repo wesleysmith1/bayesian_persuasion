@@ -12,6 +12,9 @@ SESSION_CONFIGS = [
         display_name="full .25", name="full_25", app_sequence=['instructions', 'practice', 'main', 'payment'], num_demo_participants=2, flagged=.25,
     ),
     dict(
+        display_name="full 0", name="full_0", app_sequence=['instructions0', 'practice', 'main', 'payment'], num_demo_participants=2, flagged=0,
+    ),
+    dict(
         display_name="main .5", name="main_5", app_sequence=['main', 'payment'], num_demo_participants=2, flagged=.5,
     ),
     dict(
@@ -30,7 +33,13 @@ SESSION_CONFIGS = [
         display_name="instructions", name="instructions", app_sequence=['instructions'], num_demo_participants=1, flagged=.5
     ),
     dict(
+        display_name="instructions0", name="instructions0", app_sequence=['instructions0'], num_demo_participants=1, flagged=0
+    ),
+    dict(
         display_name="practice", name="practice", app_sequence=['practice'], num_demo_participants=1, flagged=.5
+    ),
+    dict(
+        display_name="practice0", name="practice0", app_sequence=['practice'], num_demo_participants=1, flagged=0
     )
 ]
 

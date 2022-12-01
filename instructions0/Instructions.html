@@ -1,0 +1,545 @@
+{{ block title }}
+{{ endblock }}
+
+{{ block content }}
+
+<style>
+    img {
+        border: 1px solid black;
+        width: 75%;
+    }
+    .hide {
+        display: none;
+    }
+    .hidden {
+        visibility: hidden;
+    }
+    .red {
+        color: red
+    }
+    .blue {
+        color: blue;
+    }
+    h3 {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .alignList {
+        margin-left: 32px;
+    }
+    .center {
+        text-align: center;
+    }
+    .half {
+        margin: auto;
+        width: 60%;
+    }
+    .flagged {
+        color: red;
+        font-weight: bolder;
+        background: pink !important;
+    }
+    .notFlagged {
+        color: green;
+        font-weight: bolder;
+        background: rgb(133, 250, 133) !important;
+    }
+    ol > li {
+        margin-bottom: 20px;
+    }
+    ol.normalMargin > li {
+        margin-bottom: 2px;
+    }
+    .inlineSelect {
+        display: inline-block;
+    }
+</style>
+
+    <div id="1">
+        <h3>Welcome</h3>
+        <p>
+            You are about to participate in a research study and you will be paid for your participation in cash (privately) at the end of the
+            session. What you earn depends partly on your decisions, partly on the decisions of others, and partly on chance. On top of
+            what you will earn during the session, you will receive an additional $7 as a show-up fee.
+        </p>
+        <p>
+            The entire session, including any interaction among participants, will take place through computers. Please do not talk, or in
+            any way try to communicate, with other participants during the session.
+        </p>
+        <p>
+            We will start with a brief instruction period, during which you will learn about the interaction that will take place and how you
+            can earn money. To ensure understanding, we will ask you some questions related to the instructions and also
+            give you the opportunity to play two practice rounds. After this, the paid rounds of the study will begin.
+        </p>
+        <p>
+            At any point during this session, if you have any questions, please raise your hand and your question will be answered
+            privately.
+        </p>
+
+        <br>
+
+        <div style="display: flex; justify-content: center;">
+            <button class="btn btn-primary next" type="button">Next</button>
+        </div>
+
+    </div>
+    <div id="2" class="hide">
+        <h3>Instructions</h3>
+        <h4>Overview</h4>
+        <ul>
+            <li>
+                There are 20 rounds in this experiment.
+            </li>
+            <li>
+                Half of you will be <b>Senders</b>, and the other half will be <b>Receivers</b>.
+            </li>
+            <li>
+                All participants will stay in the same role for all 20 rounds.
+            </li>
+            <li>
+                New <b>Sender-Receiver</b> pairs will be made in each round. So, you will probably not 
+                interact with the same person in the next round.
+            </li>
+            <li>
+                Your final earnings will be the sum of your earnings in each of the 20 rounds plus the $7 show-up fee.
+            </li>
+        </ul>
+
+        <h4>Choosing Plans</h4>
+
+        <ul>
+            <li>
+                You will make your decisions by choosing a <i>plan</i>.
+            </li>
+            <li>
+                The <b>Sender’s</b> plan is called a <i>Communication Plan</i>.
+            </li>
+            <li>
+                The <b>Receiver’s</b> plan is called a <i>Guessing Plan</i>.
+            </li>
+            <li>
+                The purpose of these plans is to tell the computer what action you would take under each
+                situation that you could possibly face.
+            </li>
+            <li>
+                The computer will then use these plans to determine the outcome of a round.
+            </li>
+        </ul>
+
+        <p>
+            Before we can explain how the <b>Sender</b> and <b>Receiver</b> will choose their plans, it is important to know what happens in each
+            round. We provide this information below.
+        </p>
+
+        <h4>
+            Sequence of events in a single round
+        </h4>
+        <ol>
+            <li><b>Sender</b> chooses a <i>Communication Plan</i>.</li>
+            <li><b>Receiver</b> chooses a <i>Guessing Plan</i>.</li>
+            <li><b>The computer</b> implements the round.
+                <ol type="i">
+                    <li>
+                        First, the computer randomly draws a ball from a bag that contains 1 red ball and 2 blue balls. (So, there is a
+                        67% chance that the ball will be blue and 33% chance that it will be red.)
+                    </li>
+                    <li>
+                        Next, the computer sends a message to the <b>Receiver</b> on behalf of the <b>Sender</b>. The message can be either
+                        “<span class="red">the ball is red</span>” or “<span class="blue">the ball is blue</span>”. The computer determines which message to send according to the
+                        instructions provided by the <b>Sender’s</b> <i>Communication Plan</i>.
+                    </li>
+                    <li>
+                        The computer makes a guess on the <b>Receiver’s</b> behalf about the color of the ball. The guess can be either
+                        RED or BLUE. The computer enters this guess according to the instructions provided by the <b>Receiver’s</b>
+                        <i>Guessing Plan</i>.
+                    </li>
+                    <li>
+                        Both participants receive their earnings. The <b>Receiver</b> earns $2 if the <b>Receiver’s</b> guess is correct (i.e., the
+                        guess is the same as the true color of the ball), or $0 if the guess is incorrect. The <b>Sender</b> earns $2 if the
+                        <b>Receiver’s</b> guess is RED, or $0 if the <b>Receiver’s</b> guess is BLUE.
+                    </li>
+                </ol>
+            </li>
+        </ol>
+
+        <br>
+        <p class="half center">
+            <b>Next:</b> We will explain how the <b>Sender</b> chooses a <i>Communication Plan</i>.
+        </p>
+        <p class="half center">
+            You will be able to come back to this screen if you wish to read it again.
+        </p>
+
+        <br>
+
+        <div style="display: flex; justify-content: space-between">
+            <button class="btn btn-primary previous" type="button">Previous</button>
+            <button class="btn btn-primary next" type="button">Next</button>
+        </div>
+
+    </div>
+    <div id="3" class="hide">
+        <h3>Sender’s Communication Plan</h3>
+
+        <p>
+            The purpose of the <i>Communication Plan</i> is to instruct the computer on how to choose which message to send depending on
+            which ball is drawn. The computer will randomly pick one of two messages: “<span class="red">the ball is red</span>” or “<span class="blue">the ball is blue</span>”. The
+            <b>Sender</b> needs to tell the computer the probability with which the computer should pick either message.
+        </p>
+
+        <p>
+            To be more specific, the <b>Sender</b> needs to tell the computer the following two probabilities:
+        </p>
+
+        <ol>
+            <li>
+                <b>If a <span class="red">red</span> ball is drawn, then send the message “<span class="red">the ball is red</span>” with a probability of ___%.</b><br>
+                <i>
+                    By default, the message “<span class="blue">the ball is blue</span>” will be sent with the remaining probability, i.e., 100 minus the chosen
+                    number.
+                </i>
+            </li>
+            <li>
+                <b>If a <span class="blue">blue</span> ball is drawn, then send the message “<span class="red">the ball is red</span>” with a probability of ___%.</b><br>
+                <i>
+                    Again, the message “<span class="blue">the ball is blue</span>” will be sent with the remaining probability.
+                </i>
+            </li>
+        </ol>
+
+        <p>
+            The <b>Sender</b> will choose these probabilities using slider scales. The <b>Sender’s</b> decision screen will look something like this:
+        </p>
+
+        <div class="center">
+            <img src="{{ static 'global/sender.PNG' }}"/>
+        </div>
+
+        <br>
+        <p>
+            Note that the greater the difference between these two probabilities, the more informative the <i>Communication Plan</i> will be.
+        </p>
+
+        <p>
+            <u>Example 1:</u> Suppose that the <b>Sender</b> tells the computer the following: If a <span class="red">red</span> ball is drawn, then send the message "<span class="red">the ball is red</span>" with a probability of 80% (and the message "<span class="blue">the ball is blue</span>" with the remaining 20%). If a <span class="blue">blue</span> ball is drawn, then send the message "<span class="red">the ball is red</span>" with a probability of 10% (and the message "<span class="blue">the ball is blue</span>" with the remaining 90%). </br>
+            Then, if a <span class="red">red</span> ball gets drawn, the message "<span class="red">the ball is red</span>" is very likely to appear. However, if a <span class="blue">blue</span> ball gets drawn, the message "<span class="blue">the ball is blue</span>" is very likely to appear.
+        </p>
+            
+        <p>
+            <u>Example 2:</u> Suppose that the <b>Sender</b> tells the computer the following: If a <span class="red">red</span> ball is drawn, then send the message "<span class="red">the ball is red</span>" with a probability of 80%. If a <span class="blue">blue</span> ball is drawn, then send the message "<span class="red">the ball is red</span>" with a probability of 85%. </br>
+            Then the message "<span class="red">the ball is red</span>" is very likely to appear regardless of whether a <span class="red">red</span> ball is drawn or a <span class="blue">blue</span> ball is drawn.
+        </p>
+
+        <br>
+        <p class="half center"><b>Next:</b> We will explain how the <b>Receiver</b> chooses a <i>Guessing Plan</i>.</p>
+        <p class="half center">You will be able to come back to this screen if you wish to read it again.</p>
+
+        <br>
+
+        <div style="display: flex; justify-content: space-between">
+            <button class="btn btn-primary previous" type="button">Previous</button>
+            <button class="btn btn-primary next" type="button">Next</button>
+        </div>
+
+    </div>
+    <div id="4" class="hide">
+        <h3>Receiver’s Guessing Plan</h3>
+
+        <p>
+            Before the <b>Receiver</b> chooses their <i>Guessing Plan</i>, they observe the <b>Sender’s</b> <i>Communication Plan</i>. That is, they observe the
+            probability that the message will say “<span class="red">the ball is red</span>” when the ball is in fact <span class="red">red</span>, and the probability that the message will say
+            “<span class="blue">the ball is blue</span>” when the ball is in fact <span class="blue">blue</span>. Note that this can help the <b>Receiver</b> infer the likelihood that the message is
+            true.
+        </p>
+
+        <p>
+            The <b>Receiver</b> needs to tell the computer how to guess the color of the ball for the following possible situations:
+        </p>
+
+        <ol>
+            <li>
+                If the message is “<span class="red">the ball is red</span>” and this message is not flagged, then guess _____ (Red/Blue)
+            </li>
+            <li>
+                If the message is “<span class="blue">the ball is blue</span>” and this message is not flagged, then guess _____ (Red/Blue)
+            </li>
+        </ol>
+
+        <p>The <b>Receiver’s</b> decision screen will look something like this:</p>
+
+        <div class="center">
+            <img src="{{ static 'global/receiver0.PNG' }}"/>
+        </div>
+
+        <br>
+        <br>
+        <p class="half center">
+            <b>Next:</b> We will explain how the computer implements a single round.
+        </p>
+        <p class="half center">
+            You will be able to come back to this screen if you wish to read it again.
+        </p>
+
+        <br>
+
+        <div style="display: flex; justify-content: space-between">
+            <button class="btn btn-primary previous" type="button">Previous</button>
+            <button class="btn btn-primary next" type="button">Next</button>
+        </div>
+    </div>
+    <div id="5" class="hide">
+        <h3>Implementation of a Round</h3>
+
+        <p>
+            After the <b>Sender</b> and <b>Receiver</b> submit their <i>Communication</i> and <i>Guessing</i> plans, the computer implements the round by running
+            the following sequence of events:
+        </p>
+
+        <ol>
+            <li>
+                The computer starts by randomly drawing a ball from a bag that contains 1 red ball and 2 blue balls. That is, there is a
+                67% chance that a blue ball gets drawn and a 33% chance that a red ball gets drawn.
+            </li>
+            <li>
+                Based on the color of the ball drawn and the <i>Communication Plan</i> chosen by the <b>Sender</b>, the computer randomly
+                chooses a message. For example, if a blue ball is drawn in the first step and the <b>Sender’s</b> <i>Communication Plan</i> instructs
+                the computer to send the message “<span class="red">the ball is red</span>” with a probability of 40% when a blue ball is drawn, then there is a
+                40% chance that the computer will choose the message “<span class="red">the ball is red</span>” and a 60% chance that the computer will
+                choose the message “<span class="blue">the ball is blue</span>”.
+            </li>
+            <li>
+                Based on the message chosen in step 2 and the instructions provided by the <b>Receiver’s</b> <i>Guessing Plan</i>, the computer enters a guess on the <b>Receiver's</b> behalf about the color of the ball.
+                For example, if the computer sends the message “<span class="red">the ball is red</span>” and the
+                <b>Receiver’s</b> <i>Guessing Plan</i> instructs the computer to guess <span class="red">RED</span> when the
+                message is “<span class="red">the ball is red</span>”, then the computer will enter the guess <span class="red">RED</span>.
+            </li>
+            <li>
+                The computer determines the earnings of the <b>Sender</b> and <b>Receiver</b>. The Sender’s earnings depend on whether or
+                not the <b>Receiver’s</b> guess is <span class="red">RED</span>, while the <b>Receiver’s</b> earnings depend on whether or not the <b>Receiver’s</b> guess is
+                correct. More precisely, the <b>Sender’s</b> and <b>Receiver’s</b> earnings are determined as follows.
+                <br>
+                <div style="margin-left: 13px;">
+                    <b>
+                        Sender’s earnings:
+                    </b>
+                    <ul>
+                        <li>
+                            If the <b>Receiver’s</b> guess is <span class="red">RED</span>, then regardless of which color ball is drawn, the <b>Sender</b> earns $2.
+                        </li>
+                        <li>
+                            If the <b>Receiver’s</b> guess is <span class="blue">BLUE</span>, then regardless of which color ball is drawn, the <b>Sender</b> earns $0.
+                        </li>
+                    </ul>
+            
+                    <b>
+                        Receiver’s earnings:
+                    </b>
+                    <ul>
+                        <li>
+                            If a <span class="red">red</span> ball is drawn AND the <b>Receiver’s</b> guess is <span class="red">RED</span> (correct), then the <b>Receiver</b> earns $2.
+                        </li>
+                        <li>
+                            If a <span class="red">red</span> ball is drawn AND the <b>Receiver’s</b> guess is <span class="blue">BLUE</span> (incorrect), then the <b>Receiver</b> earns $0.
+                        </li>
+                        <li>
+                            If a <span class="blue">blue</span> ball is drawn AND the <b>Receiver’s</b> guess is <span class="blue">BLUE</span> (correct), then the <b>Receiver</b> earns $2.
+                        </li>
+                        <li>
+                            If a <span class="blue">blue</span> ball is drawn AND the <b>Receiver’s</b> guess is <span class="red">RED</span> (incorrect), then the <b>Receiver</b> earns $0.
+                        </li>
+                    </ul>
+                </div>
+
+            </li>
+        </ol>
+
+        <br>
+        <p class="half center">
+            <b>Next:</b> We will provide a brief summary of some of the key aspects of the rounds.
+        </p>
+        <p class="half center">
+            You will be able to come back to this screen if you wish to read it again.
+        </p>
+
+        <br>
+
+        <div style="display: flex; justify-content: space-between">
+            <button class="btn btn-primary previous" type="button">Previous</button>
+            <button class="btn btn-primary next" type="button">Next</button>
+        </div>
+
+    </div>
+    <div id="6" class="hide">
+        <h3>Summary</h3>
+        
+        <ul>
+            <li>
+                There is a <span class="blue">67%</span> chance that the ball will be <span class="blue">Blue</span>, and a <span class="red">33%</span> chance that the ball will be <span class="red">Red</span>.
+            </li>
+            <li>
+                Both the <b>Sender’s</b> and the <b>Receiver’s</b> earnings depend on the <b>Receiver’s</b> guess.
+            </li>
+            <li>
+                The <b>Sender</b> earns $2 if the <b>Receiver</b> guesses <span class="red">RED</span>, and earns $0 if the <b>Receiver</b> guesses <span class="blue">BLUE</span>.
+            </li>
+            <li>
+                The <b>Receiver</b> earns $2 for guessing correctly, and $0 for guessing incorrectly.
+            </li>
+            <li>
+                The <b>Receiver</b> can see the Sender’s entire <i>Communication Plan</i> before making their <i>Guessing Plan</i>.
+            </li>
+            <li>
+                You will be randomly assigned to one role and will remain in that role for all 20 rounds.
+            </li>
+            <li>
+                In each round, you will be randomly paired with another participant.
+            </li>
+        </ul>
+
+        <br>
+        <p class="center">
+            <b>Next:</b> You will answer some questions to demonstrate your understanding of these instructions. <br>
+            You will be able to come back to this screen (or any previous screen) if you wish to read something again.
+        </p>
+
+        <br>
+
+        <div style="display: flex; justify-content: space-between">
+            <button class="btn btn-primary previous" type="button">Previous</button>
+            <button class="btn btn-primary next" type="button">Next</button>
+        </div>
+
+    </div>
+    <div id="7" class="hide">
+
+        <h3>Understanding Questions</h3>
+
+        {{ formfield 'q1' }}
+
+        <br>
+
+        {{ formfield 'q2' }}
+
+        <br>
+
+        {{ formfield 'q3' }}
+
+        <br>
+
+        <label class="col-form-label" for="id_q4a">
+            <b>Question 4:</b> Suppose that the following events occur in a round.<br>
+            <ol class="normalMargin" style="margin-bottom: -5px; margin-left: 12px;">
+                <li>
+                    <i>A <span class='red'>red</span> ball is drawn.</i>
+                </li>
+                <li>
+                    <i>The message sent to the <b>Receiver</b> is: “<span class='red'>The ball is red</span>”</i>
+                </li>
+                <li>
+                    <i>The <b>Receiver’s</b> guess is <span class='blue'>BLUE</span>.</i>
+                </li>
+            </ol>
+        </label>
+
+        <p>What would the <b>Sender's</b> and <b>Receiver's</b> earnings be in this round?</p>
+
+        <div class="mb-3 _formfield">
+            <label class="col-form-label" for="id_q4a">
+            <b>Sender's</b> earnings =
+            </label>
+            <div class="controls inlineSelect">
+                <select class="form-select" id="id_q4a" name="q4a" required="">
+                    <option selected="" value="">--------</option>
+                    <option value="$0">$0</option>
+                    <option value="$2">$2</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="mb-3 _formfield">
+            <label class="col-form-label" for="id_q4b">
+            <b>Receiver's</b> earnings =
+            </label>
+            <div class="controls inlineSelect">
+                <select class="form-select" id="id_q4b" name="q4b" required="">
+                    <option selected="" value="">--------</option>
+                    <option value="$0">$0</option>
+                    <option value="$2">$2</option>
+                </select>
+            </div>
+        </div>
+
+        <br>
+
+        <p>
+            <b>Next:</b> You will do two practice rounds. The purpose of these rounds is that you become familiar with the tasks of both roles.
+            You will be both the Sender and the Receiver in these practice rounds. When everyone is done with the practice rounds, we
+            will pair each Sender with a Receiver, and the first paid round will begin.
+        </p>
+
+        <br>
+
+        <div style="display: flex; justify-content: space-between">
+            <button class="btn btn-primary previous" type="button">Previous</button>
+            <button class="btn btn-primary next" type="button">Next</button>
+        </div>
+    </div>
+
+    <button id="submit" type="submit" style="display: none"></button>
+
+    <script>
+        let quizAttempts = {{player.quiz_attempts}}
+        let index = 1
+        let quizIndex = 7
+
+        function showQuiz() {
+            $("#"+index).addClass('hide')
+            $("#"+quizIndex).removeClass('hide')
+            index = quizIndex
+        }
+
+        // function checkPrevious() {
+        //     if (index == 1) {
+        //         $("#previous").addClass("hidden")
+        //     } else {
+        //         $("#previous").removeClass("hidden")
+        //     }
+        // }
+
+        if (quizAttempts > 0) {
+            showQuiz()
+        }
+
+        $( ".next" ).click(function() {
+            if (index == quizIndex) {
+                $('#submit').click()
+                return
+            }
+
+            $("#"+index).addClass('hide')
+            index+=1
+
+            $('html,body').scrollTop(0);
+
+            $("#"+index).removeClass('hide')
+
+            // checkPrevious()
+        });
+
+        $( ".previous" ).click(function() {
+            if (index == 1) {
+                return
+            }
+
+            $("#"+index).addClass('hide')
+            index-=1
+            $('html,body').scrollTop(0);
+            $("#"+index).removeClass('hide')
+
+            // checkPrevious()
+        });
+
+    </script>
+{{ endblock }}
+
+

@@ -73,21 +73,21 @@
 <br>
 <hr>
 
-<div style="display: flex; justify-content: space-between;">
+<div style="display: flex;">
     <div style="border-right: 1px solid black; padding-right: 10px; margin-right: 5px;">
         <div style="font-size: 20px; text-align: center;">{{chart_title}}</div>
         {{ include C.CHART_TEMPLATE }}
     </div>
-    <div>
+    <div style="flex-grow: 2;">
         <p style="font-size: 20px; text-align: center;">{% if player.role == C.RECEIVER_ROLE %}Your Guessing Plan{% else %}Receiver's Guessing Plan{% endif %}</p>
-        <div>
-            <p>If the message is "<span class="red">The ball is Red</span>" {% if form_elements == 4 %}and it is not flagged{% endif %}, then guess <b><span class="{{group.if_red_guess}}">{{group.if_red_guess}}</span></b></p>
+        <div style="margin-left: 10px;">
+            <p>If the message is "<span class="red">The ball is Red</span>"{% if form_elements == 4 %} and it is not flagged{% endif %}, then guess <b><span class="{{group.if_red_guess}}">{{group.if_red_guess}}</span></b></p>
             {% if group.field_maybe_none('if_red_flagged_guess')%}
                 <p>If the message is "<span class="red">The ball is Red</span>" and it is <span class="flagged">&#9873; flagged &#9873;</span>, then guess <b><span class="{{group.if_red_flagged_guess}}">{{group.if_red_flagged_guess}}</span></b></p>
             {% endif %}
-            <p>If the message is "<span class="blue">The ball is Blue</span>" and it is not flagged, then guess <b><span class="{{group.if_blue_guess}}">{{group.if_blue_guess}}</span></b></p>
+            <p>If the message is "<span class="blue">The ball is Blue</span>"{% if form_elements == 4 %} and it is not flagged{% endif %}, then guess <b><span class="{{group.if_blue_guess}}">{{group.if_blue_guess}}</span></b></p>
             {% if group.field_maybe_none('if_blue_flagged_guess')%}
-                <p>If the message is "<span class="blue">The ball is Blue</span>" {% if form_elements == 4 %}and it is <span class="flagged">&#9873; flagged &#9873;</span>{% endif %}, then guess <b><span class="{{group.if_blue_flagged_guess}}">{{group.if_blue_flagged_guess}}</span></b></p>
+                <p>If the message is "<span class="blue">The ball is Blue</span>" and it is <span class="flagged">&#9873; flagged &#9873;</span>, then guess <b><span class="{{group.if_blue_flagged_guess}}">{{group.if_blue_flagged_guess}}</span></b></p>
             {% endif %}
         </div>
     </div>
