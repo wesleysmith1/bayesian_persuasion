@@ -29,6 +29,10 @@
         display: flex;
         justify-content: space-between;
     }
+    .trow0 {
+        display: flex;
+        justify-content: space-around;
+    }
     .red {
         color: red;
     }
@@ -56,7 +60,7 @@
             <div>For each of the following situations, tell the computer how to guess the color of the ball.</div>
             <br>
 
-            <div class="trow">
+            <div class="{% if form_elements > 2 %}trow{% else %}trow0{% endif %}">
                 <div>
                     If the message is:
                 </div>
@@ -70,7 +74,7 @@
                 </div>
             </div>
             <hr>
-            <div class="trow">
+            <div class="{% if form_elements > 2 %}trow{% else %}trow0{% endif %}">
                 <div>
                     "<span class="red">The ball is Red</span>"
                 </div>
@@ -100,7 +104,7 @@
             </div>
             <hr>
             {% endif %}
-            <div class="trow">
+            <div class="{% if form_elements > 2 %}trow{% else %}trow0{% endif %}">
                 <div>
                     "<span class="blue">The ball is Blue</span>"
                 </div>
