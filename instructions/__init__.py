@@ -29,7 +29,7 @@ class Player(BasePlayer):
     q2 = models.StringField(
         widget=widgets.RadioSelect,
         label="""<b>Question 2:</b> Suppose that the <b>Sender</b> chooses the following <i>Communication Plan</i>.<br><br>
-        &emsp;&emsp;<i>If a <span class='red'>red</span> ball is drawn, then send the message “<span class='red>the ball is red</span>” with a probability of 90%</i><br>
+        &emsp;&emsp;<i>If a <span class='red'>red</span> ball is drawn, then send the message “<span class='red'>the ball is red</span>” with a probability of 90%</i><br>
         &emsp;&emsp;<i>If a <span class='blue'>blue</span> ball is drawn, then send the message “<span class='red'>the ball is red</span>” with a probability of 10%</i><br><br>
         Then, regardless of the color of the ball drawn,""",
         choices=[
